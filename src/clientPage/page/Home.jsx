@@ -5,13 +5,17 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-toggle/style.css"
 import Header from "../component/Header";
 import Carousel from "../component/Carousel";
+import Card from "../component/Card";
 
 export default function Home() {
 
 	return (
 		<>
-			<div className="relative p-8">
+			<div className="relative">
 				<Carousel />
+				<div>
+					<Card />
+				</div>
 			</div>
 		</>
 	)

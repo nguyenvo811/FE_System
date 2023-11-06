@@ -57,8 +57,8 @@ export default function LayoutClient(){
 
 const MainContent = function() {
   return (
-    <div className="text-ellipsis flex items-start p-2 max-md:pt-12">
-      <div className="relative h-full w-full bg-gray-50">
+    <div className="text-ellipsis flex items-start p-8 max-md:pt-12">
+      <div className="relative h-full w-full">
         <div className="max-md:pt-0">
             <Outlet />
         </div>

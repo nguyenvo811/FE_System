@@ -9,29 +9,19 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 // import AddProduct from "./AddProduct";
-import { getCategories, removeCategory } from "../../../api/apiServices";
-import AddCategory from "./AddCategory";
-import AlertCategory from "./AlertCategory";
-import UpdateCategory from "./UpdateCategory";
-// import AlertProduct from "./AlertProduct";
-// import MaterialReactTable from 'material-react-table';
-// import { Box, IconButton, Tooltip } from '@mui/material';
-// import Button from '@mui/joy/Button';
-// import Add from '@mui/icons-material/Add';
-// import CreateProductModal from "./CreateProductModal";
-// import AlertDeleteModal from "./AlertDeleteModal";
-// import { getProducts, deleteProduct } from "../../../api/apiServices";
-// import UpdateProductModal from "./UpdateProductModal";
-// import { FormatDateTimeDislay } from "../../../assets/FormatDateTimeDisplay";
+import { getBrands, removeBrand } from "../../../api/apiServices";
+import AddBrand from "./AddBrand";
+import AlertBrand from "./AlertBrand";
+import UpdateBrand from "./UpdateBrand";
 
-export default function CategoryTable() {
+export default function BrandTable() {
 	return (
 		<>
 			<div className="block items-center justify-between border-b border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex">
 				<div className="mb-1 w-full">
 					<div className="mb-4 pt-16">
 						<h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">
-							DANH SÁCH THỂ LOẠI SẢN PHẨM
+							BRAND LIST
 						</h1>
 						<Breadcrumb className="mb-4">
 							<Breadcrumb.Item href="#">
@@ -40,7 +30,7 @@ export default function CategoryTable() {
 									<span className="dark:text-white">Home</span>
 								</div>
 							</Breadcrumb.Item>
-							<Breadcrumb.Item>Thể loại sản phẩm</Breadcrumb.Item>
+							<Breadcrumb.Item>Brand</Breadcrumb.Item>
 						</Breadcrumb>
 					</div>
 				</div>
@@ -78,7 +68,7 @@ const Table = function() {
 	const apiRef = React.useRef(null);
 
 	React.useEffect(() => {
-    getCategories()
+    getBrands()
       .then(res => {
         setData(res.data.data)
         console.log(res.data.data)
@@ -103,7 +93,7 @@ const Table = function() {
   // Delete the row.
   const removeRow = () => {
 		const updatedRows = data.filter(row => row._id !== rows.row._id);
-    removeCategory(rows?.row._id)
+    removeBrand(rows?.row._id)
 		.then((response) => { 
       setData(updatedRows);
     	apiRef.current.updateRows(updatedRows);
@@ -139,8 +129,8 @@ const Table = function() {
         );
       },
     },
-    { field: 'categoryName', headerName: 'Category', width: 200, },
-    { field: 'description', headerName: 'Description' },
+    { field: 'brandName', headerName: 'Nhãn hiệu', width: 200, },
+    { field: 'description', headerName: 'Mô tả' },
   ], []);
 
 	return (
@@ -148,7 +138,7 @@ const Table = function() {
 			<div className="flex pb-4 justify-end">
 				<Button variant="outlined" onClick={handleClickOpen}>
 				<AddIcon />
-					THÊM LOẠI SẢN PHẨM
+					THÊM NHÃN HIỆU
 				</Button>
 			</div>
 			<div className="flex justify-center">
@@ -164,9 +154,9 @@ const Table = function() {
 					/>
 				</div>
 			</div>
-			<AddCategory open={open} close={() => setOpen(false)} row={updateRow} />
-			<UpdateCategory open={openUpdate} close={() => setOpenUpdate(false)} row={updateRow} data={rows} setData={setRows} />
-			<AlertCategory open={openAlert} close={() => setOpenAlert(false)} handleRemove={() => removeRow()}/>
+			<AddBrand open={open} close={() => setOpen(false)} row={updateRow} />
+			<UpdateBrand open={openUpdate} close={() => setOpenUpdate(false)} row={updateRow} data={rows} setData={setRows} />
+			<AlertBrand open={openAlert} close={() => setOpenAlert(false)} handleRemove={() => removeRow()}/>
 		</>
 	)
 }

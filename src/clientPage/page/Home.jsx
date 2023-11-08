@@ -3,7 +3,6 @@ import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import "react-toggle/style.css"
-import Header from "../component/Header";
 import Carousel from "../component/Carousel";
 import Card from "../component/Card";
 

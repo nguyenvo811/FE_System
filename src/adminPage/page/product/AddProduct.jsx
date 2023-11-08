@@ -20,7 +20,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import { Combobox, Label, TextInput, Select, Textarea } from 'flowbite-react';
-import { createLaptop, createWatch, getCategories } from '../../../api/apiServices';
+import { createLaptop, createWatch, createSmartPhone, createTV, createTablet, getCategories, getBrands } from '../../../api/apiServices';
 import UploadFile from '../../../asset/library/UploadFile';
 import Watch from './Watch';
 import Laptop from './Laptop';
@@ -33,6 +33,7 @@ export default function AddProduct(props) {
   // Declare global variables to create product
   const { open, close, row } = props;
   const [select, setSelect] = React.useState([]);
+  const [selectBrand, setSelectBrand] = React.useState([]);
 
   const [newProduct, setNewProduct] = React.useState({
     productName: "",
@@ -63,15 +64,41 @@ export default function AddProduct(props) {
     operatingSystem: ""
   });
 
+  // Declare variables to create smart phone
+  const [smartPhone, setSmartPhone] = React.useState({
+    screenTech: "",
+    resolution: "",
+    screenSize: "",
+    operatingSystem: "",
+    processor: "",
+    internalMemory: "",
+    ram: "",
+    mobileNetwork: "",
+    simSlot: "",
+    batteryCapacity: ""
+  });
+
   // Set dialog size
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('md');
 
-  // Get categories 
+  // Get categories and brand
   React.useEffect(() => {
     getCategories()
       .then(res => {
+        console.log(res.data.data)
         setSelect(res.data.data)
+      })
+      .catch(err => {
+        if (err.response) {
+          console.log(err.response.data.result);
+          console.log(err.response.status);
+          console.log(err.response.data.message);
+        }
+      })
+      getBrands()
+      .then(res => {
+        setSelectBrand(res.data.data)
       })
       .catch(err => {
         if (err.response) {
@@ -82,27 +109,26 @@ export default function AddProduct(props) {
       })
   }, []);
 
-  // Select category options to change attributes
+  // Select category and brand options to change attributes
   const [selectedValue, setSelectedValue] = React.useState("");
+  const [selectedBrandValue, setSelectedBrandValue] = React.useState("");
   const handleSelect = (e) => {
     // Set the state variable to the selected value.
     setSelectedValue(e.target.value);
   }
 
+  const handleBrandSelect = (e) => {
+    // Set the state variable to the selected value.
+    setSelectedBrandValue(e.target.value);
+  }
+
   // List category to rendert
   const listCategory = select.find(val => { 
     if (val._id === selectedValue) {
+      console.log(val)
       return val
     } else {
       return 
-    }
-  });
-
-  const includeParentId = [];
-
-  select.forEach((element) => {
-    if (element.parentId) {
-      includeParentId.push(element);
     }
   });
 
@@ -111,6 +137,16 @@ export default function AddProduct(props) {
   const [moreVariants, setMoreVariants] = React.useState([]);
   const [currentVariantIndex, setCurrentVariantIndex] = React.useState(0);
   const [currentMoreVariantIndex, setCurrentMoreVariantIndex] = React.useState(0);
+
+  const [error, setError] = React.useState({
+    productName: "",
+    description: "",
+    origin: "",
+    category: "",
+    color: "",
+    price: "",
+    images: ""
+  });
 
   const handleAddMoreVariant = () => {
     const newMoreVariant = {
@@ -378,13 +414,7 @@ export default function AddProduct(props) {
 
   const choseValue = (value) => {
     switch (value) {
-      case listCategory[0]:
-        return {
-          screenSize: watch.screenSize,
-          weight: watch.weight,
-          batteryCapacity: watch.batteryCapacity,
-        };
-      case listCategory[1]:
+      case listCategory.parentId.categoryName === "Laptop":
         return {
           resolution: laptop.resolution,
           cpuNumber: laptop.cpuNumber,
@@ -394,8 +424,28 @@ export default function AddProduct(props) {
           ram: laptop.ram,
           operatingSystem: laptop.operatingSystem
         };
+      case listCategory.parentId.categoryName === "Watch":
+        return {
+          screenSize: watch.screenSize,
+          weight: watch.weight,
+          batteryCapacity: watch.batteryCapacity,
+        };
+      
+      case listCategory.parentId.categoryName === "Smart phone":
+        return {
+          screenTech: smartPhone.screenTech,
+          resolution: smartPhone.resolution,
+          screenSize: smartPhone.screenSize,
+          operatingSystem: smartPhone.operatingSystem,
+          processor: smartPhone.processor,
+          internalMemory: smartPhone.internalMemory,
+          ram: smartPhone.ram,
+          mobileNetwork: smartPhone.mobileNetwork,
+          simSlot: smartPhone.simSlot,
+          batteryCapacity: smartPhone.batteryCapacity
+        };
       default:
-        throw new Error('Invalid product type');
+        setError({category: ""});
     }
   };
 
@@ -427,13 +477,20 @@ export default function AddProduct(props) {
     console.log(data)
     // Create the appropriate product type based on the selected category
     const createProductType = async (productType) => {
-      switch (productType) {
-        case listCategory[0]:
-          return await createWatch(data);
-        case listCategory[1]:
+      const value = listCategory._id === productType
+      switch (value) {
+        case listCategory.parentId.categoryName === "Laptop":
           return await createLaptop(data);
+        case listCategory.parentId.categoryName === "Watch":
+          return await createWatch(data);
+        case listCategory.parentId.categoryName === "Smart phone":
+          return await createSmartPhone(data);
+        case listCategory.parentId.categoryName === "Television":
+          return await createTV(data);
+        case listCategory.parentId.categoryName === "Tablet":
+          return await createTablet(data);
         default:
-          throw new Error('Invalid product type');
+          setError({category: ""});
       }
     };
 
@@ -521,9 +578,36 @@ export default function AddProduct(props) {
                     <option value={"Choose category"}>
                       Choose category
                     </option>
-                    {includeParentId?.map((option) => (
+                    {select?.map((option) => (
                       <option key={option._id} value={option._id}>
                         {option.categoryName}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+
+              <div className='grid gap-2'>
+                <div>
+                  <div className="mb-2 block">
+                    <Label
+                      htmlFor="brand"
+                      value="Brand"
+                    />
+                  </div>
+                  <Select
+                    id="brand"
+                    name="brand"
+                    required
+                    value={selectedBrandValue}
+                    onChange={handleBrandSelect}
+                  >
+                    <option value={"Choose brand"}>
+                      Choose brand
+                    </option>
+                    {selectBrand?.map((option) => (
+                      <option key={option._id} value={option._id}>
+                        {option.brandName}
                       </option>
                     ))}
                   </Select>
@@ -554,7 +638,7 @@ export default function AddProduct(props) {
                     : listCategory.parentId.categoryName === "Watch" ? <Watch data={watch} setData={setWatch} />
                       : listCategory.parentId.categoryName === "Laptop" ? <Laptop data={laptop} setData={setLaptop} />
                         : listCategory.parentId.categoryName === "Television" ? <Television data={laptop} setData={setLaptop} />
-                          : listCategory.parentId.categoryName === "Smart phone" ? <SmartPhone data={laptop} setData={setLaptop} />
+                          : listCategory.parentId.categoryName === "Smart phone" ? <SmartPhone data={smartPhone} setData={setSmartPhone} />
                             : listCategory.parentId.categoryName === "Tablet" ? <Tablet data={laptop} setData={setLaptop} />
                               : "" 
               }

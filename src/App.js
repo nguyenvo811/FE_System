@@ -7,6 +7,9 @@ import CategoryTable from './adminPage/page/category/CategoryTable';
 import UserTable from './adminPage/page/user/UserTable';
 import Home from './clientPage/page/Home';
 import LayoutClient from './clientPage/layout/LayoutClient';
+import Cart from './clientPage/page/Cart';
+import Favorites from './clientPage/page/Favorites';
+import BrandTable from './adminPage/page/brand/BrandTable';
 
 function App() {
   return (
@@ -15,12 +18,15 @@ function App() {
         <Routes>
           <Route element={<LayoutClient />}>
             <Route index path='/' element={<Home />} />
+            <Route index path='/cart' element={<Cart />} />
+            <Route index path='/favorites' element={<Favorites />} />
           </Route>
-          <Route index path='/dang-nhap' element={<Authentication />} />
+          <Route index path='/sign-in' element={<Authentication />} />
           <Route element={<LayoutAdmin />}>
             <Route index path='/products' element={<ProductTable />} />
             <Route path='/categories' element={<CategoryTable />} />
             <Route path='/user-list' element={<UserTable />} />
+            <Route path='/brands' element={<BrandTable />} />
           </Route>
         </Routes>
       </BrowserRouter>

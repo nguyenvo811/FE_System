@@ -48,12 +48,28 @@ const getProducts = async () => {
 	return await axios.get("http://localhost:8081/products", config)
 }
 
+const getHomeProducts = async () => {
+	return await axios.get("http://localhost:8081/home/products", config)
+}
+
 const createWatch = async (data) => {
 	return await axios.post("http://localhost:8081/products/watchs/add-watch", data, config)
 }
 
 const createLaptop = async (data) => {
 	return await axios.post("http://localhost:8081/products/laptops/add-latop", data, config)
+}
+
+const createTV = async (data) => {
+	return await axios.post("http://localhost:8081/products/televisions/add-television", data, config)
+}
+
+const createTablet = async (data) => {
+	return await axios.post("http://localhost:8081/products/tablets/add-tablet", data, config)
+}
+
+const createSmartPhone = async (data) => {
+	return await axios.post("http://localhost:8081/products/smart-phones/add-smart-phone", data, config)
 }
 
 const removeProduct = async (id) => {
@@ -80,6 +96,27 @@ const updateCategory = async (id, data) => {
 	return await axios.patch(`http://localhost:8081/categories/${id}`, data, config)
 }
 
+const getBrands = async () => {
+	return await axios.get("http://localhost:8081/brands", config)
+}
+
+const createBrand = async (data) => {
+	return await axios.post("http://localhost:8081/brands/add-brand", data, config)
+		.then(response => {
+			return response
+		})
+}
+
+const removeBrand = async (id) => {
+	return await axios.delete(`http://localhost:8081/brands/${id}`, config)
+}
+
+const updateBrand = async (id, data) => {
+	return await axios.patch(`http://localhost:8081/brands/${id}`, data, config)
+		.then(response => {
+			return response
+		})
+}
 
 export {
 	signIn,
@@ -90,12 +127,20 @@ export {
 	removeUser,
 	viewProfile,
 	getProducts,
+	getHomeProducts,
 	getCategories,
 	getCategory,
 	createCategory,
 	updateCategory,
 	removeCategory,
+	getBrands,
+	createBrand,
+	removeBrand,
+	updateBrand,
 	createWatch,
 	createLaptop,
+	createTV,
+	createSmartPhone,
+	createTablet,
 	removeProduct,
 }

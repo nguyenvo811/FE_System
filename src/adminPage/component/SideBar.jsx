@@ -11,18 +11,23 @@ export default function Sidebar() {
 	const data = [
 		{
 			icon: <HiTag size='1.3rem' />,
-			label: "Sản phẩm",
+			label: "Product",
 			path: "/products"
 		},
 		{
 			icon: <HiUsers size='1.2rem' />,
-			label: "Người dùng",
+			label: "User",
 			path: "/user-list"
 		},
 		{
 			icon: <HiUsers size='1.2rem' />,
-			label: "Thể loại sản phẩm",
+			label: "Category",
 			path: "/categories"
+		},
+		{
+			icon: <HiUsers size='1.2rem' />,
+			label: "Brand",
+			path: "/brands"
 		}
 	]
 

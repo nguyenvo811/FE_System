@@ -20,7 +20,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import { Combobox, Label, TextInput, Select, Textarea } from 'flowbite-react';
-import { getCategories, updateCategory } from '../../../api/apiServices';
+import { updateCategory } from '../../../api/apiServices';
 
 export default function UpdateCategory(props) {
 
@@ -30,39 +30,6 @@ export default function UpdateCategory(props) {
 
   // Declare global variables to create product
   const { open, close, row, data, setData} = props;
-
-  // Declare variable to get categories
-  const [select, setSelect] = React.useState([]);
-
-  // Get categories 
-  React.useEffect(() => {
-    getCategories()
-      .then(res => {
-        setSelect(res.data.data)
-      })
-      .catch(err => {
-        if (err.response) {
-          console.log(err.response.data.result);
-          console.log(err.response.status);
-          console.log(err.response.data.message);
-        }
-      })
-  }, []);
-
-  // Select category options to change attributes
-  const [selectedValue, setSelectedValue] = React.useState("");
-  const handleSelect = (e) => {
-    // Set the state variable to the selected value.
-    setSelectedValue(e.target.value);
-  }
-
-  const listCategory = select.map(val => { return val._id });
-  const defaultCategoryName = listCategory.find((e)=> {return e === data?.parentId?._id});
-
-	React.useEffect(() => {
-		setSelectedValue(defaultCategoryName);
-	}, [defaultCategoryName]);
-
 
 	const [error, setError] = React.useState({
     categoryName: "",
@@ -113,8 +80,7 @@ export default function UpdateCategory(props) {
 
     const updatedData = {
       categoryName: data.categoryName,
-      description: data.description,
-      parentId: selectedValue,
+      description: data.description
     }
 
 		const isValid = validation()
@@ -166,7 +132,7 @@ export default function UpdateCategory(props) {
               noValidate
               autoComplete="off"
             >
-              <div className='grid grid-cols-2 gap-2'>
+              <div className='grid gap-2'>
                 <div>
                   <div className="mb-2 block">
                     <Label
@@ -186,29 +152,6 @@ export default function UpdateCategory(props) {
 									<p class="mt-1 text-sm text-red-500"> 
 										{error.categoryName}
 									</p>
-                </div>
-                <div>
-                  <div className="mb-2 block">
-                    <Label
-                      htmlFor="parentId"
-                      value="Sub category"
-                    />
-                  </div>
-                  <Select
-                    id="parentId"
-                    name="parentId"
-                    value={selectedValue}
-                    onChange={handleSelect}
-                  >
-                    <option value={"Choose category"}>
-                      Choose category
-                    </option>
-                    {select?.map((option) => (
-                      <option key={option._id} value={option._id}>
-                        {option.categoryName}
-                      </option>
-                    ))}
-                  </Select>
                 </div>
               </div>
 

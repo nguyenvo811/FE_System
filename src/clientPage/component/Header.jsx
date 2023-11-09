@@ -4,6 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import "react-toggle/style.css";
 import StateContext from "./StateContext";
+import { getHomeProducts } from "../../api/apiServices";
 
 // Create a custom hook to use the context
 function useStateContext() {
@@ -24,10 +25,33 @@ export default function Header(props) {
 	const { open, setOpen } = useStateContext();
 	const [isOpen, setIsOpen] = React.useState(false);
 	const [getId, setGetId] = React.useState("");
+	const [listProduct, setListProduct] = React.useState([]);
 
-	const { category, subCategory } = props;
+	const { category } = props;
 
-	const listSubCategory = subCategory?.filter(val => val.parentId._id === getId);
+	React.useEffect(() => {
+		getHomeProducts()
+			.then(res => {
+				setListProduct(res.data.data)
+			})
+			.catch(err => {
+				console.log(err)
+			})
+
+	}, [])
+
+	const includeProductBrand = listProduct?.filter(val => val?.category?._id === getId);
+
+	const listBrand = [];
+
+  includeProductBrand.forEach((element) => {
+    if (element.brand) {
+      listBrand.push(element);
+    } 
+  });
+
+
+	console.log(listBrand)
 
 	const renderCategory = category.map((val, index) => {
 		return (
@@ -46,15 +70,15 @@ export default function Header(props) {
 		)
 	})
 
-	const renderSubCategory = listSubCategory.map((val, index) => {
+	const renderBrand = listBrand.map((val, index) => {
 		return (
 			<li
 				key={index} 
 				class="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium hover:text-gray-800 hover:bg-gray-100"
-				onClick={() => navigate(`/${val.categoryName.toLowerCase()}`)}
+				onClick={() => navigate(`/${val.brand.brandName.toLowerCase()}`)}
 			>
 					<a>
-						{val.categoryName}
+						{val.brand.brandName}
 					</a>
 			</li>
 		)
@@ -144,7 +168,7 @@ export default function Header(props) {
 						class={`absolute w-full bg-white border-1 py-1 px-4 text-gray-800 ${isOpen ? "block" : "hidden"}`}
 					>
 						<ul onMouseLeave={() => {return setIsOpen(false), setGetId("")}}>
-							{renderSubCategory}
+							{renderBrand}
 						</ul>
 					</div>
 				</div>

@@ -84,7 +84,7 @@ export default function Television(props) {
 						required
 						placeholder="SMART 4K TV"
 						type="text"
-						value={data.resolution}
+						value={data.productType}
 						onChange={handleChangeInput}
 					/>
 				</div>

@@ -13,13 +13,14 @@ export default function LayoutClient(){
   // State variable here
   const [open, setOpen] = React.useState(false);
 
-  const [select, setSelect] = React.useState([]);
+  const [selectCategory, setSelectCategory] = React.useState([]);
+  const [selectBrand, setSelectBrand] = React.useState([]);
 
 	// Get categories 
   React.useEffect(() => {
     getCategories()
       .then(res => {
-        setSelect(res.data.data)
+        setSelectCategory(res.data.data)
       })
       .catch(err => {
         if (err.response) {
@@ -30,22 +31,11 @@ export default function LayoutClient(){
       })
   }, []);
 
-	const notIncludeParentId = [];
-  const includeParentId = [];
-
-  select.forEach((element) => {
-    if (!element.parentId) {
-      notIncludeParentId.push(element);
-    } else {
-      includeParentId.push(element);
-    }
-  });
-
   return (
     <>
       <StateContext.Provider value={{ open, setOpen }}>
-        <Header category={notIncludeParentId} subCategory={includeParentId}/>
-          <ASide category={notIncludeParentId} subCategory={includeParentId}/>
+        <Header category={selectCategory} />
+          <ASide category={selectCategory} />
           <MainContent />
         <div className="mt-4">
           <Bottom />
@@ -58,7 +48,7 @@ export default function LayoutClient(){
 const MainContent = function() {
   return (
     <div className="text-ellipsis flex items-start p-8 max-md:pt-12">
-      <div className="relative h-full w-full">
+      <div className=" h-full w-full">
         <div className="max-md:pt-0">
             <Outlet />
         </div>

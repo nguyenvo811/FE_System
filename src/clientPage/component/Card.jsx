@@ -4,8 +4,6 @@ import { getHomeProducts } from "../../api/apiServices";
 export default function Card() {
 	const [listProduct, setListProduct] = React.useState([]);
 
-	console.log(listProduct)
-
 	React.useEffect(() => {
 		getHomeProducts()
 			.then(res => {
@@ -17,6 +15,8 @@ export default function Card() {
 
 	}, [])
 
+	console.log(listProduct)
+
 	const listData = listProduct.map((val, index) => {
 		return (
 			<>
@@ -27,11 +27,11 @@ export default function Card() {
 					</div>
 					<div class="p-">
 						<div className="text-left">
-							<h2 class="mb-2 text-lg font-medium dark:text-white text-gray-900">{val.productName}</h2>
+							<h2 class="mb-2 text-lg font-medium dark:text-white text-white">{val.productName}</h2>
 							{/* <p class="mb-2 text-base dark:text-gray-300 text-gray-700">Product description goes here.</p> */}
 						</div>
 						<div class="flex items-center">
-							<p class="mr-2 text-lg font-semibold text-gray-900 dark:text-white">{val.variants[0].moreVariants[0].price}</p>
+							<p class="mr-2 text-lg font-semibold text-white">{val.variants[0].moreVariants[0].price}</p>
 							<p class="text-base  font-medium text-gray-500 line-through dark:text-gray-300">$25.00</p>
 						</div>
 						<div className="mt-2 flex justify-between items-center">

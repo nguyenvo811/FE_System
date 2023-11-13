@@ -28,6 +28,11 @@ export default function Sidebar() {
 			icon: <HiUsers size='1.2rem' />,
 			label: "Brand",
 			path: "/brands"
+		},
+		{
+			icon: <HiUsers size='1.2rem' />,
+			label: "Order",
+			path: "/management/orders"
 		}
 	]
 

@@ -10,6 +10,10 @@ import LayoutClient from './clientPage/layout/LayoutClient';
 import Cart from './clientPage/page/Cart';
 import Favorites from './clientPage/page/Favorites';
 import BrandTable from './adminPage/page/brand/BrandTable';
+import slug from './resource/slug';
+import ProductDetail from './clientPage/page/ProductDetail';
+import OrderTable from './adminPage/page/order/OrderTable';
+import Orders from './clientPage/page/Orders';
 
 function App() {
   return (
@@ -20,6 +24,8 @@ function App() {
             <Route index path='/' element={<Home />} />
             <Route index path='/cart' element={<Cart />} />
             <Route index path='/favorites' element={<Favorites />} />
+            <Route index path='/orders' element={<Orders />} />
+            <Route index path={slug.DETAIL} element={<ProductDetail />} />
           </Route>
           <Route index path='/sign-in' element={<Authentication />} />
           <Route element={<LayoutAdmin />}>
@@ -27,6 +33,7 @@ function App() {
             <Route path='/categories' element={<CategoryTable />} />
             <Route path='/user-list' element={<UserTable />} />
             <Route path='/brands' element={<BrandTable />} />
+            <Route path='/management/orders' element={<OrderTable />} />
           </Route>
         </Routes>
       </BrowserRouter>

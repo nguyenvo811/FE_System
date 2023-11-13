@@ -20,7 +20,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import { Combobox, Label, TextInput, Select, Textarea } from 'flowbite-react';
-import { createLaptop, createWatch, createSmartPhone, createTV, createTablet, getCategories, getBrands } from '../../../api/apiServices';
+import { createLaptop, createWatch, createSmartPhone, createTV, createTablet, getCategories, getBrands, getCategory } from '../../../api/apiServices';
 import UploadFile from '../../../asset/library/UploadFile';
 import Watch from './Watch';
 import Laptop from './Laptop';
@@ -171,6 +171,8 @@ export default function AddProduct(props) {
   const [moreVariants, setMoreVariants] = React.useState([]);
   const [currentVariantIndex, setCurrentVariantIndex] = React.useState(0);
   const [currentMoreVariantIndex, setCurrentMoreVariantIndex] = React.useState(0);
+
+  console.log(moreVariants)
 
   const [error, setError] = React.useState({
     productName: "",
@@ -444,10 +446,12 @@ export default function AddProduct(props) {
     close();
   }
 
-  const choseValue = (value) => {
-    console.log(value)
-    switch (value) {
-      case listCategory.categoryName === "Laptop":
+
+  const choseValue = async (value) => {
+    const category = await getCategory(value);
+    const showValue = category.data.data;
+    switch (showValue.categoryName) {
+      case "Laptop":
         return {
           resolution: laptop.resolution,
           cpuNumber: laptop.cpuNumber,
@@ -457,14 +461,14 @@ export default function AddProduct(props) {
           ram: laptop.ram,
           operatingSystem: laptop.operatingSystem
         };
-      case listCategory.categoryName === "Watch":
+      case "Watch":
         return {
           screenSize: watch.screenSize,
           weight: watch.weight,
           batteryCapacity: watch.batteryCapacity,
         };
       
-      case listCategory.categoryName === "Smart phone":
+      case "Smart phone":
         return {
           screenTech: smartPhone.screenTech,
           resolution: smartPhone.resolution,
@@ -477,7 +481,7 @@ export default function AddProduct(props) {
           simSlot: smartPhone.simSlot,
           batteryCapacity: smartPhone.batteryCapacity
         };
-      case listCategory.categoryName === "Television":
+      case "Television":
         return {
           resolution: television.resolution,
           screenSize: television.screenSize,
@@ -485,7 +489,7 @@ export default function AddProduct(props) {
           port: television.port,
           weight: television.weight
         };
-      case listCategory.categoryName === "Tablet":
+      case "Tablet":
         return {
           screenTech: tablet.screenTech,
           operatingSystem: tablet.operatingSystem,
@@ -512,7 +516,7 @@ export default function AddProduct(props) {
       brand: selectedBrandValue,
       productBrand: selectedProductBrandValue,
       variants: variants,
-      ...choseValue(selectedValue)
+      ...await choseValue(selectedValue)
     }
 
     const updatedVariants = [];
@@ -529,20 +533,22 @@ export default function AddProduct(props) {
 
     data.variants = updatedVariants;
 
-    console.log(television)
+    console.log(data)
     // Create the appropriate product type based on the selected category
     const createProductType = async (productType) => {
-      const value = listCategory._id === productType;
-      switch (value) {
-        case listCategory.categoryName === "Laptop":
+      const category = await getCategory(productType);
+      const showValue = category.data.data;
+      console.log(showValue.categoryName)
+      switch (showValue.categoryName) {
+        case "Laptop":
           return await createLaptop(data);
-        case listCategory.categoryName === "Watch":
+        case "Watch":
           return await createWatch(data);
-        case listCategory.categoryName === "Smart phone":
+        case "Smart phone":
           return await createSmartPhone(data);
-        case listCategory.categoryName === "Television":
+        case "Television":
           return await createTV(data);
-        case listCategory.categoryName === "Tablet":
+        case "Tablet":
           return await createTablet(data);
         default:
           setError({category: ""});

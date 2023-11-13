@@ -22,7 +22,7 @@ export default function NavBar() {
 
 	const handleLogOut = () => {
 		localStorage.clear();
-		navigate("/dang-nhap")
+		navigate("/sign-in")
 	}
 
 	useEffect(() => {

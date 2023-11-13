@@ -48,6 +48,10 @@ const getProducts = async () => {
 	return await axios.get("http://localhost:8081/products", config)
 }
 
+const getProduct = async (id) => {
+	return await axios.get(`http://localhost:8081/home/products/${id}`, config)
+}
+
 const getHomeProducts = async () => {
 	return await axios.get("http://localhost:8081/home/products", config)
 }
@@ -57,7 +61,7 @@ const createWatch = async (data) => {
 }
 
 const createLaptop = async (data) => {
-	return await axios.post("http://localhost:8081/products/laptops/add-latop", data, config)
+	return await axios.post("http://localhost:8081/products/laptops/add-laptop", data, config)
 }
 
 const createTV = async (data) => {
@@ -118,6 +122,79 @@ const updateBrand = async (id, data) => {
 		})
 }
 
+const addToWishLish = async (id, isLiked) => {
+	const data = {
+	  product: id,
+	  isLiked: isLiked
+	}
+	console.log(data)
+	return await axios.post("http://localhost:8081/add-to-wish-list", data, config)
+  }
+  
+  const viewWishList = async () => {
+	return await axios.get("http://localhost:8081/view-wish-list", {headers: {
+	  "Content-Type": "application/json",
+	  Authorization: `Bearer ${JSON.parse(localStorage.getItem("Authentication"))}`
+	}})
+  }
+  
+  const deleteProductFromWishList = async (id) => {
+	const data = {
+	  product: id
+	}
+	console.log(data)
+	return await axios.delete("http://localhost:8081/delete-from-wish-list", {headers: {
+	  "Content-Type": "application/json",
+	  Authorization: `Bearer ${JSON.parse(localStorage.getItem("Authentication"))}`
+	}, data})
+  }
+
+  const createComment = async (data) => {
+	return await axios.post("http://localhost:8081/create-comment", data, config)
+  }
+
+  const viewCart = async () => {
+	return await axios.get("http://localhost:8081/view-cart", config)
+  }
+
+  const addToCart = async (data) => {
+	return await axios.post("http://localhost:8081/add-to-cart", data, config)
+  }
+  
+  const deleteProductFromCart = async (data) => {
+	return await axios.delete("http://localhost:8081/delete-from-cart", {headers: {
+	  "Content-Type": "application/json",
+	  Authorization: `Bearer ${JSON.parse(localStorage.getItem("Authentication"))}`
+	}, data})
+  }
+  
+  const deleteCart = async (id) => {
+	return await axios.delete(`http://localhost:8081/delete-cart/${id}`, config)
+  }
+
+  const createOrder = async (data) => {
+	return await axios.post("http://localhost:8081/create-order", data, config)
+  }
+  
+  const viewOrders = async () => {
+	return await axios.get("http://localhost:8081/orders", {headers: {
+	  "Content-Type": "application/json",
+	  Authorization: `Bearer ${JSON.parse(localStorage.getItem("Authentication"))}`
+	}})
+  }
+  
+  const getOrders = async () => {
+	return await axios.get("http://localhost:8081/view-orders", config)
+  }
+  
+  const deleteOrder = async (id) => {
+	return await axios.delete(`http://localhost:8081/delete-order/${id}`)
+  }
+  
+  const updateOrder = async (id, data) => {
+	return await axios.patch(`http://localhost:8081/update-order/${id}`, data, config)
+  }
+
 export {
 	signIn,
 	createUser,
@@ -127,6 +204,7 @@ export {
 	removeUser,
 	viewProfile,
 	getProducts,
+	getProduct,
 	getHomeProducts,
 	getCategories,
 	getCategory,
@@ -143,4 +221,17 @@ export {
 	createSmartPhone,
 	createTablet,
 	removeProduct,
+	viewWishList,
+	addToWishLish,
+	deleteProductFromWishList,
+	createComment,
+	viewCart,
+	addToCart,
+	deleteProductFromCart,
+	deleteCart,
+	viewOrders,
+	createOrder,
+	deleteOrder,
+	updateOrder,
+	getOrders
 }

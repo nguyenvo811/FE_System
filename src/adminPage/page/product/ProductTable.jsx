@@ -76,7 +76,7 @@ const Table = function() {
 	React.useEffect(() => {
     getProducts()
       .then(res => {
-        setData(res.data.data)
+        setData(res.data.data.findProduct)
         console.log(res.data.data)
       })
       .catch(err => {

@@ -31,7 +31,7 @@ export default function Laptop(props) {
 						placeholder="4K"
 						required
 						type="text"
-						value={data.resolution}
+						value={data?.resolution}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -48,7 +48,7 @@ export default function Laptop(props) {
 						required
 						placeholder="30g"
 						type="text"
-						value={data.cpuNumber}
+						value={data?.cpuNumber}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -68,7 +68,7 @@ export default function Laptop(props) {
 						placeholder="Updating"
 						required
 						type="text"
-						value={data.baseClock}
+						value={data?.baseClock}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -85,7 +85,7 @@ export default function Laptop(props) {
 						required
 						placeholder="Android 11"
 						type="text"
-						value={data.operatingSystem}
+						value={data?.operatingSystem}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -105,7 +105,7 @@ export default function Laptop(props) {
 						placeholder="33mm"
 						required
 						type="text"
-						value={data.ram}
+						value={data?.ram}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -122,7 +122,7 @@ export default function Laptop(props) {
 						required
 						placeholder="30g"
 						type="text"
-						value={data.weight}
+						value={data?.weight}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -142,7 +142,7 @@ export default function Laptop(props) {
 						placeholder="32x44x67"
 						required
 						type="text"
-						value={data.dimensions}
+						value={data?.dimensions}
 						onChange={handleChangeInput}
 					/>
 				</div>

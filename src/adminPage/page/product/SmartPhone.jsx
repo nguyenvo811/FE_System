@@ -31,7 +31,7 @@ export default function SmartPhone(props) {
 						placeholder="Super Retina XDR"
 						required
 						type="text"
-						value={data.screenTech}
+						value={data?.screenTech}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -48,7 +48,7 @@ export default function SmartPhone(props) {
 						required
 						placeholder="1290 x 2796"
 						type="text"
-						value={data.resolution}
+						value={data?.resolution}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -68,7 +68,7 @@ export default function SmartPhone(props) {
 						placeholder="6.7'"
 						required
 						type="text"
-						value={data.screenSize}
+						value={data?.screenSize}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -85,7 +85,7 @@ export default function SmartPhone(props) {
 						required
 						placeholder="iOS 17"
 						type="text"
-						value={data.operatingSystem}
+						value={data?.operatingSystem}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -105,7 +105,7 @@ export default function SmartPhone(props) {
 						placeholder="A17 Pro"
 						required
 						type="text"
-						value={data.processor}
+						value={data?.processor}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -122,7 +122,7 @@ export default function SmartPhone(props) {
 						required
 						placeholder="512GB"
 						type="text"
-						value={data.internalMemory}
+						value={data?.internalMemory}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -142,7 +142,7 @@ export default function SmartPhone(props) {
 						placeholder="8GB"
 						required
 						type="text"
-						value={data.ram}
+						value={data?.ram}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -159,7 +159,7 @@ export default function SmartPhone(props) {
 						required
 						placeholder="2G, 3G, 4G, 5G"
 						type="text"
-						value={data.intermobileNetworknalMemory}
+						value={data?.mobileNetwork}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -179,7 +179,7 @@ export default function SmartPhone(props) {
 						placeholder="Dual SIM (nano SIM and eSIM), Supports two eSIMs"
 						required
 						type="text"
-						value={data.simSlot}
+						value={data?.simSlot}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -196,7 +196,7 @@ export default function SmartPhone(props) {
 						required
 						placeholder="6500 mAh"
 						type="text"
-						value={data.batteryCapacity}
+						value={data?.batteryCapacity}
 						onChange={handleChangeInput}
 					/>
 				</div>

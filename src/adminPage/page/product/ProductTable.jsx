@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddProduct from "./AddProduct";
 import { getProducts, removeProduct } from "../../../api/apiServices";
 import AlertProduct from "./AlertProduct";
+import UpdateProduct from "./UpdateProduct";
 // import MaterialReactTable from 'material-react-table';
 // import { Box, IconButton, Tooltip } from '@mui/material';
 // import Button from '@mui/joy/Button';
@@ -59,6 +60,7 @@ const Table = function() {
 
 	// Add product dialog
 	const [open, setOpen] = React.useState(false);
+	const [openUpdate, setOpenUpdate] = React.useState(false);
 	const [openAlert, setOpenAlert] = React.useState(false);
 	const [rows, setRows] = React.useState("");
 
@@ -121,7 +123,7 @@ const Table = function() {
           <div>
 						<IconButton 
 							aria-label="update"
-							onClick={() => updateRow(params?.row)}
+							onClick={() => {return setOpenUpdate(true), setRows(params.row)}}
 						>
 							<EditIcon />
 						</IconButton>
@@ -175,6 +177,7 @@ const Table = function() {
 				</div>
 			</div>
 			<AddProduct open={open} close={() => setOpen(false)} row={updateRow}/>
+			<UpdateProduct open={openUpdate} close={() => setOpenUpdate(false)} row={updateRow} data={rows} setData={setRows} />
 			<AlertProduct open={openAlert} close={() => setOpenAlert(false)} handleRemove={() => removeRow()}/>
 		</>
 	)

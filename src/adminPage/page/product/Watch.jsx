@@ -31,7 +31,7 @@ export default function Watch(props) {
 						placeholder="33mm"
 						required
 						type="text"
-						value={data.screenSize}
+						value={data?.screenSize}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -48,7 +48,7 @@ export default function Watch(props) {
 						required
 						placeholder="30g"
 						type="text"
-						value={data.weight}
+						value={data?.weight}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -65,7 +65,7 @@ export default function Watch(props) {
 						required
 						placeholder="400mAh"
 						type="text"
-						value={data.batteryCapacity}
+						value={data?.batteryCapacity}
 						onChange={handleChangeInput}
 					/>
 				</div>

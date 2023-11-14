@@ -28,21 +28,16 @@ import Television from './Television';
 import SmartPhone from './SmartPhone';
 import Tablet from './Tablet';
 
-export default function AddProduct(props) {
+export default function UpdateProduct(props) {
 
   // Declare global variables to create product
-  const { open, close, row } = props;
+  const { open, close, row, data, setData } = props;
   const [select, setSelect] = React.useState([]);
   const [selectBrand, setSelectBrand] = React.useState([]);
 
-  const [newProduct, setNewProduct] = React.useState({
-    productName: "",
-    description: "",
-  });
-
   const handleChangeInput = (e) => {
     let { name, value } = e.target;
-    setNewProduct({ ...newProduct, [name]: value })
+    setData({ ...data, [name]: value })
   }
 
   // Declare variables to create watch
@@ -152,7 +147,7 @@ export default function AddProduct(props) {
   }
 
   // List category to rendert
-  const listCategory = select.find(val => {
+  const listCategory = select?.find(val => {
     if (val._id === selectedValue) {
       return val
     } else {
@@ -172,14 +167,21 @@ export default function AddProduct(props) {
     images: [],
     moreVariants: []
   }]);
+
   const [moreVariants, setMoreVariants] = React.useState([{
     version: "",
     price: "",
     quantity: ""
   }]);
-  const [oldProductIndex, setOldProductIndex] = React.useState(0);
 
-  console.log(variants)
+  console.log(data)
+
+  React.useEffect(() => {
+    setVariants(data?.variants)
+    setSelectedValue(data?.category?._id)
+    setSelectedBrandValue(data?.brand?._id)
+    setSelectedProductBrandValue(data?.productBrand)
+  }, [data?.category?._id, data?.brand?._id, data?.productBrand]);
 
   const [error, setError] = React.useState({
     productName: "",
@@ -198,19 +200,7 @@ export default function AddProduct(props) {
       quantity: ""
     };
 
-    // if (oldProductIndex !== index) {
-    //   setMoreVariants([newMoreVariant]);
-    //   setOldProductIndex(index)
-    //   return;
-    // }
-
-    // setMoreVariants([...variants[index]?.moreVariants, newMoreVariant]);
     setMoreVariants([variants[index]?.moreVariants.push(newMoreVariant)])
-    // setVariants((prevVariants) => {
-    //   const newVariants = [...prevVariants];
-    //   newVariants[index]?.moreVariants.push(newMoreVariant);
-    //   return newVariants;
-    // });
   }
 
   const handleAddVariant = () => {
@@ -399,7 +389,7 @@ export default function AddProduct(props) {
             {variant?.images?.map((image, imageIndex) => (
               <div key={imageIndex} className='relative'>
                 <div className='h-36 w-36 m-auto relative group border-dashed border-2 border-gray-300 rounded-xl'>
-                  <img src={URL.createObjectURL(image)} alt="Preview" className='w-full h-full rounded-xl bg-center bg-cover ' />
+                  <img src={image} alt="Preview" className='w-full h-full rounded-xl bg-center bg-cover ' />
                   <div className='absolute top-0 right-0'>
                     <IconButton>
                       <HighlightOffIcon onClick={(e) => handleImageDeletion(index, imageIndex)} />
@@ -431,7 +421,7 @@ export default function AddProduct(props) {
       batteryCapacity: "",
     });
 
-    setNewProduct({
+    setData({
       productName: "",
       description: "",
     });
@@ -441,7 +431,6 @@ export default function AddProduct(props) {
     setMoreVariants([]);
     close();
   }
-
 
   const choseValue = async (value) => {
     const category = await getCategory(value);
@@ -505,9 +494,9 @@ export default function AddProduct(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = {
-      productName: newProduct.productName,
-      description: newProduct.description,
+    const updatedData = {
+      productName: data.productName,
+      description: data.description,
       category: selectedValue,
       brand: selectedBrandValue,
       productBrand: selectedProductBrandValue,
@@ -527,9 +516,8 @@ export default function AddProduct(props) {
       updatedVariants.push(updatedElement);
     }
 
-    data.variants = updatedVariants;
+    updatedData.variants = updatedVariants;
 
-    console.log(data)
     // Create the appropriate product type based on the selected category
     const createProductType = async (productType) => {
       const category = await getCategory(productType);
@@ -537,15 +525,15 @@ export default function AddProduct(props) {
       console.log(showValue.categoryName)
       switch (showValue.categoryName) {
         case "Laptop":
-          return await createLaptop(data);
+          return await createLaptop(updatedData);
         case "Watch":
-          return await createWatch(data);
+          return await createWatch(updatedData);
         case "Smart phone":
-          return await createSmartPhone(data);
+          return await createSmartPhone(updatedData);
         case "Television":
-          return await createTV(data);
+          return await createTV(updatedData);
         case "Tablet":
-          return await createTablet(data);
+          return await createTablet(updatedData);
         default:
           setError({ category: "" });
       }
@@ -611,7 +599,7 @@ export default function AddProduct(props) {
                     placeholder="iPhone 15"
                     required
                     type="text"
-                    value={newProduct.productName}
+                    value={data.productName}
                     onChange={handleChangeInput}
                   />
                 </div>
@@ -709,7 +697,7 @@ export default function AddProduct(props) {
                   placeholder="iPhone is the best product of Apple"
                   required
                   rows={4}
-                  value={newProduct.description}
+                  value={data.description}
                   onChange={handleChangeInput}
                 />
               </div>
@@ -717,11 +705,11 @@ export default function AddProduct(props) {
               {
                 selectedValue === "" ? ""
                   : selectedValue === "Choose category" ? ""
-                    : listCategory.categoryName === "Watch" ? <Watch data={watch} setData={setWatch} />
-                      : listCategory.categoryName === "Laptop" ? <Laptop data={laptop} setData={setLaptop} />
-                        : listCategory.categoryName === "Television" ? <Television data={television} setData={setTelevision} />
-                          : listCategory.categoryName === "Smart phone" ? <SmartPhone data={smartPhone} setData={setSmartPhone} />
-                            : listCategory.categoryName === "Tablet" ? <Tablet data={tablet} setData={setTablet} />
+                    : listCategory?.categoryName === "Watch" ? <Watch data={data?.moreAttribute} setData={setWatch} />
+                      : listCategory?.categoryName === "Laptop" ? <Laptop data={data?.moreAttributeaptop} setData={setLaptop} />
+                        : listCategory?.categoryName === "Television" ? <Television data={data?.moreAttribute} setData={setTelevision} />
+                          : listCategory?.categoryName === "Smart phone" ? <SmartPhone data={data?.moreAttribute} setData={setSmartPhone} />
+                            : listCategory?.categoryName === "Tablet" ? <Tablet data={data?.moreAttribute} setData={setTablet} />
                               : ""
               }
 

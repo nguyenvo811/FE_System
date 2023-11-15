@@ -20,7 +20,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import { Combobox, Label, TextInput, Select, Textarea } from 'flowbite-react';
-import { createLaptop, createWatch, createSmartPhone, createTV, createTablet, getCategories, getBrands, getCategory } from '../../../api/apiServices';
+import { createLaptop, createWatch, createSmartPhone, createTV, createTablet, getCategories, getBrands, getCategory, updateSmartPhone } from '../../../api/apiServices';
 import UploadFile from '../../../asset/library/UploadFile';
 import Watch from './Watch';
 import Laptop from './Laptop';
@@ -168,6 +168,13 @@ export default function UpdateProduct(props) {
     moreVariants: []
   }]);
 
+  const [tmpVariants, setTmpVariants] = React.useState(
+    variants?.map((variant) => ({
+      ...variant,
+      images: []
+    }))
+  );
+
   const [moreVariants, setMoreVariants] = React.useState([{
     version: "",
     price: "",
@@ -228,13 +235,16 @@ export default function UpdateProduct(props) {
   };
 
   const handleFileUpload = (index, event) => {
-    const variantsCopy = [...variants];
+    const tmpVariantsCopy = [...tmpVariants];
     const files = event.target.files;
-    for (const file of files) {
-      variantsCopy[index].images.push(file);
+
+    for (const file of files) { 
+      tmpVariantsCopy[index].images.push(file);
     }
 
-    setVariants(variantsCopy);
+    console.log("copy", tmpVariantsCopy)
+
+    setTmpVariants(tmpVariantsCopy);
   };
 
   const handleVersionChange = (index, indexTemp, event) => {
@@ -362,7 +372,7 @@ export default function UpdateProduct(props) {
               name="color"
               required
               placeholder="Color of product"
-              value={variant.color}
+              defaultValue={variant.color}
               onChange={(event) => handleColorChange(index, event)}
             />
           </div>
@@ -390,6 +400,18 @@ export default function UpdateProduct(props) {
               <div key={imageIndex} className='relative'>
                 <div className='h-36 w-36 m-auto relative group border-dashed border-2 border-gray-300 rounded-xl'>
                   <img src={image} alt="Preview" className='w-full h-full rounded-xl bg-center bg-cover ' />
+                  <div className='absolute top-0 right-0'>
+                    <IconButton>
+                      <HighlightOffIcon onClick={(e) => handleImageDeletion(index, imageIndex)} />
+                    </IconButton>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {tmpVariants[index]?.images?.map((image, imageIndex) => (
+              <div key={imageIndex} className='relative'>
+                <div className='h-36 w-36 m-auto relative group border-dashed border-2 border-gray-300 rounded-xl'>
+                  <img src={URL.createObjectURL(image)} alt="Preview" className='w-full h-full rounded-xl bg-center bg-cover ' />
                   <div className='absolute top-0 right-0'>
                     <IconButton>
                       <HighlightOffIcon onClick={(e) => handleImageDeletion(index, imageIndex)} />
@@ -505,18 +527,21 @@ export default function UpdateProduct(props) {
     }
 
     const updatedVariants = [];
-    for (let index = 0; index < variants.length; index++) {
+    for (let index = 0; index < tmpVariants.length; index++) {
 
-      const element = variants[index];
+      const element = tmpVariants[index];
       const upfiles = await Promise.all(element.images.map(UploadFile));
       const updatedElement = {
         ...element,
         images: upfiles.map((upfile) => upfile.data),
       };
       updatedVariants.push(updatedElement);
+      console.log(updatedVariants)
     }
 
     updatedData.variants = updatedVariants;
+
+    console.log(updatedData)
 
     // Create the appropriate product type based on the selected category
     const createProductType = async (productType) => {
@@ -529,7 +554,7 @@ export default function UpdateProduct(props) {
         case "Watch":
           return await createWatch(updatedData);
         case "Smart phone":
-          return await createSmartPhone(updatedData);
+          return await updateSmartPhone(data._id, updatedData);
         case "Television":
           return await createTV(updatedData);
         case "Tablet":

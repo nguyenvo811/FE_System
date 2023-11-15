@@ -76,6 +76,10 @@ const createSmartPhone = async (data) => {
 	return await axios.post("http://localhost:8081/products/smart-phones/add-smart-phone", data, config)
 }
 
+const updateSmartPhone = async (id, data) => {
+	return await axios.patch(`http://localhost:8081/products/smart-phones/${id}`, data, config)
+}
+
 const removeProduct = async (id) => {
 	return await axios.delete(`http://localhost:8081/products/${id}`, config)
 }
@@ -220,6 +224,7 @@ export {
 	createTV,
 	createSmartPhone,
 	createTablet,
+	updateSmartPhone,
 	removeProduct,
 	viewWishList,
 	addToWishLish,

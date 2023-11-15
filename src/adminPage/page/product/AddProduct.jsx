@@ -172,12 +172,12 @@ export default function AddProduct(props) {
     images: [],
     moreVariants: []
   }]);
+  
   const [moreVariants, setMoreVariants] = React.useState([{
     version: "",
     price: "",
     quantity: ""
   }]);
-  const [oldProductIndex, setOldProductIndex] = React.useState(0);
 
   console.log(variants)
 
@@ -198,19 +198,7 @@ export default function AddProduct(props) {
       quantity: ""
     };
 
-    // if (oldProductIndex !== index) {
-    //   setMoreVariants([newMoreVariant]);
-    //   setOldProductIndex(index)
-    //   return;
-    // }
-
-    // setMoreVariants([...variants[index]?.moreVariants, newMoreVariant]);
     setMoreVariants([variants[index]?.moreVariants.push(newMoreVariant)])
-    // setVariants((prevVariants) => {
-    //   const newVariants = [...prevVariants];
-    //   newVariants[index]?.moreVariants.push(newMoreVariant);
-    //   return newVariants;
-    // });
   }
 
   const handleAddVariant = () => {
@@ -248,6 +236,9 @@ export default function AddProduct(props) {
   };
 
   const handleVersionChange = (index, indexTemp, event) => {
+    console.log("product id", index)
+    console.log("moreVariant id", indexTemp)
+    // setVariants(variants[index].moreVariants[indexTemp].version = event.target.value);
     setMoreVariants(variants[index].moreVariants[indexTemp].version = event.target.value);
   };
 
@@ -280,68 +271,73 @@ export default function AddProduct(props) {
   const displayMoreVariants = (index) => {
     return (
       variants[index].moreVariants?.map((variant, indexTemp) => (
-        <div key={indexTemp} className="relative border border-gray-300 rounded-lg m-4">
-          <div className="border-b border-gray-300 my-2">
-            <div className='absolute top-0 right-0'>
-              <IconButton>
-                <HighlightOffIcon onClick={(e) => handleMoreVariantDeletion(index, indexTemp)} />
-              </IconButton>
+        // <form>
+          <div key={indexTemp} className="relative border border-gray-300 rounded-lg m-4">
+            <div className="border-b border-gray-300 my-2">
+              <div className='absolute top-0 right-0'>
+                <IconButton>
+                  <HighlightOffIcon onClick={(e) => handleMoreVariantDeletion(index, indexTemp)} />
+                </IconButton>
+              </div>
+              <div className='p-2 font-sans font-bold'>
+                <h4>Variant {indexTemp + 1}</h4>
+              </div>
             </div>
-            <div className='p-2 font-sans font-bold'>
-              <h4>Variant {indexTemp + 1}</h4>
+            <div className='grid grid-cols-3 gap-2 m-2'>
+              <div>
+                <div className="mb-2 block">
+                  <Label
+                    htmlFor="version"
+                    value="Version"
+                  />
+                </div>
+                <TextInput
+                  id="version"
+                  name="version"
+                  type="text"
+                  placeholder="Version of product"
+                  // value={variant.version}
+                  defaultValue={variant.version}
+                  onChange={(event) => handleVersionChange(index, indexTemp, event)}
+                />
+              </div>
+              <div>
+                <div className="mb-2 block">
+                  <Label
+                    htmlFor="price"
+                    value="Price"
+                  />
+                </div>
+                <TextInput
+                  id="price"
+                  name="price"
+                  type="text"
+                  placeholder="Price of product"
+                  // value={variant.price}
+                  defaultValue={variant.price}
+                  onChange={(event) => handlePriceChange(index, indexTemp, event)}
+                />
+              </div>
+              <div>
+                <div className="mb-2 block">
+                  <Label
+                    htmlFor="quantity"
+                    value="Quantity"
+                  />
+                </div>
+                <TextInput
+                  id="quantity"
+                  name="quantity"
+                  type="text"
+                  placeholder="Quantity of product"
+                  // value={variant.quantity}
+                  defaultValue={variant.quantity}
+                  onChange={(event) => handleQuantityChange(index, indexTemp, event)}
+                />
+              </div>
             </div>
           </div>
-          <div className='grid grid-cols-3 gap-2 m-2'>
-            <div>
-              <div className="mb-2 block">
-                <Label
-                  htmlFor="version"
-                  value="Version"
-                />
-              </div>
-              <TextInput
-                id="version"
-                name="version"
-                type="text"
-                placeholder="Version of product"
-                value={variant.version}
-                onChange={(event) => handleVersionChange(index, indexTemp, event)}
-              />
-            </div>
-            <div>
-              <div className="mb-2 block">
-                <Label
-                  htmlFor="price"
-                  value="Price"
-                />
-              </div>
-              <TextInput
-                id="price"
-                name="price"
-                type="text"
-                placeholder="Price of product"
-                value={variant.price}
-                onChange={(event) => handlePriceChange(index, indexTemp, event)}
-              />
-            </div>
-            <div>
-              <div className="mb-2 block">
-                <Label
-                  htmlFor="quantity"
-                  value="Quantity"
-                />
-              </div>
-              <TextInput
-                id="quantity"
-                name="quantity"
-                type="text"
-                placeholder="Quantity of product"
-                value={variant.quantity}
-                onChange={(event) => handleQuantityChange(index, indexTemp, event)}
-              />
-            </div>
-          </div>
-        </div>
+        /* </form> */
       )
     ))
   }

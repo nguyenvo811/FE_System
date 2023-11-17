@@ -53,19 +53,23 @@ export default function UpdateUser(props) {
   const validation = () => {
     let msg = {}
     if (data.email === "") {
-      msg.email = "Vui lòng điền email!"
+      msg.email = "Do not empty the field!"
     } else if (!isEmail(data.email)) {
-      msg.email = "Email không đúng định dạng!"
-		} if (data.fullName === "") {
-      msg.fullName = "Vui lòng điền họ và tên!"
+      msg.email = "Incorrect email form!"
+		} if (data.password === "") {
+      msg.password = "Do not empty the field!"
+    } else if (data.password.length < 6) {
+      msg.password = "Password must be greater than 6!"
+    } if (data.fullName === "") {
+      msg.fullName = "Do not empty the field!"
     } if (data.phoneNumber === "") {
-      msg.phoneNumber = "Vui lòng điền số điện thoại!"
+      msg.phoneNumber = "Do not empty the field!"
     } else if (data.phoneNumber.length < 10 || data.phoneNumber.length > 10) {
-      msg.phoneNumber = "Số điện thoại không đúng!"
+      msg.phoneNumber = "Incorrect phone number form!"
     } if (data.role === "") {
-      msg.role = "Vui lòng chọn vai trò!"
+      msg.role = "Do not empty the field!"
     } if (data.gender === "") {
-      msg.gender = "Vui lòng chọn giới tính!"
+      msg.gender = "Do not empty the field!"
     } 
     
     setError(msg)

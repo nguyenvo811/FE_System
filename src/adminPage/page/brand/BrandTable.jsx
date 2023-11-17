@@ -129,8 +129,8 @@ const Table = function() {
         );
       },
     },
-    { field: 'brandName', headerName: 'Nhãn hiệu', width: 200, },
-    { field: 'description', headerName: 'Mô tả' },
+    { field: 'brandName', headerName: 'Brand name', width: 200, },
+    { field: 'description', headerName: 'Description' },
   ], []);
 
 	return (
@@ -138,7 +138,7 @@ const Table = function() {
 			<div className="flex pb-4 justify-end">
 				<Button variant="outlined" onClick={handleClickOpen}>
 				<AddIcon />
-					THÊM NHÃN HIỆU
+					CREATE NEW
 				</Button>
 			</div>
 			<div className="flex justify-center">

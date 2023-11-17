@@ -142,11 +142,11 @@ export default function UpdateBrand(props) {
   const validation = () => {
     let msg = {}
     if (data.brandName === "") {
-      msg.brandName = "Vui lòng nhập tên danh mục sản phẩm!"
+      msg.brandName = "Do not empty the field!"
     } else if (msgErr !== "") {
       msg.brandName = msgErr
     } if (data.description === "") {
-      msg.description = "Vui lòng nhập mô tả danh mục!"
+      msg.description = "Do not empty the field!"
     } 
     
     setError(msg)
@@ -222,7 +222,7 @@ export default function UpdateBrand(props) {
           onClose={handleClose}
         >
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-            Thêm danh mục sản phẩm
+            Update brand
           </DialogTitle>
           <IconButton
             aria-label="close"
@@ -250,13 +250,13 @@ export default function UpdateBrand(props) {
                   <div className="mb-2 block">
                     <Label
                       htmlFor="brandName"
-                      value="Danh mục sản phẩm"
+                      value="Brand name"
                     />
                   </div>
                   <TextInput
                     id="brandName"
                     name="brandName"
-                    placeholder="Tên danh mục sản phẩm"
+                    placeholder="Brand name"
                     required
                     type="text"
                     value={data.brandName}
@@ -272,13 +272,13 @@ export default function UpdateBrand(props) {
                 <div className="mb-2 block">
                   <Label
                     htmlFor="description"
-                    value="Mô tả danh mục sản phẩm"
+                    value="Description"
                   />
                 </div>
                 <Textarea
                   id="description"
                   name="description"
-                  placeholder="Mô tả danh mục sản phẩm"
+                  placeholder="Description"
                   required
                   rows={4}
                   value={data.description}
@@ -302,10 +302,10 @@ export default function UpdateBrand(props) {
           </DialogContent>
           <DialogActions>
             <Button variant="outlined" color="inherit" onClick={handleClose}>
-              Hủy
+              Cancel
             </Button>
             <Button variant="contained" onClick={handleSubmit}>
-              Xác nhận
+              Confirm
             </Button>
           </DialogActions>
         </Dialog>

@@ -146,7 +146,7 @@ export default function Authentication() {
 			.then(res => {
 				if (res.status === 200) {
 					clearState()
-					navigate("/products")
+					navigate("/")
 					window.location.reload()
 				}
 			})
@@ -219,13 +219,13 @@ export default function Authentication() {
 									<div className="mb-2 flex">
 										<Label
 											htmlFor="password"
-											value="Mật khẩu"
+											value="Password"
 										/>
 									</div>
 									<TextInput
 										id="password"
 										name='password'
-										placeholder="Nhập mật khẩu"
+										placeholder="Password"
 										required
 										type="password"
 										value={account.password}
@@ -236,10 +236,10 @@ export default function Authentication() {
 									</p>
 								</div>
 							</div>
-							<FormControlLabel
+							{/* <FormControlLabel
 								control={<Checkbox value="remember" color="primary" />}
 								label="Remember me"
-							/>
+							/> */}
 							<Button
 								type="submit"
 								fullWidth
@@ -247,7 +247,7 @@ export default function Authentication() {
 								sx={{ mt: 3, mb: 2 }}
 								onChange={handleSubmit}
 							>
-								Đăng nhập
+								Sign in
 							</Button>
 							<Copyright sx={{ mt: 5 }} />
 							<AlertModal open={open} close={handleClose} error={alertError} />

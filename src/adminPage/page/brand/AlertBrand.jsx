@@ -27,18 +27,18 @@ export default function AlertCategory(props) {
 						component="h2"
 						startDecorator={<WarningRoundedIcon />}
 					>
-						Xác nhận
+						Confirm
 					</Typography>
 					<Divider />
 					<Typography id="alert-dialog-modal-description" className="flex justify-center" textColor="text.tertiary">
-						Bạn có chắc là sẽ xóa nhãn hiệu này?
+						Are you sure you want to discard this brand?
 					</Typography>
 					<Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end', pt: 2 }}>
 						<Button variant="plain" color="neutral" onClick={close}>
-							Hủy
+							Cancel
 						</Button>
 						<Button variant="solid" color="danger" onClick={handleRemove}>
-							Xác nhận
+							Discard
 						</Button>
 					</Box>
 				</ModalDialog>

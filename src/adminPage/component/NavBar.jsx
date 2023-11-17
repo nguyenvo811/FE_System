@@ -72,14 +72,14 @@ export default function NavBar() {
 									</div>
 									<ul className="py-1" role="none">
 										<li>
-											<a onClick={() => navigate("/")} className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Trang chủ</a>
+											<a onClick={() => navigate("/")} className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Home</a>
 										</li>
 										<li>
-											<a onClick={handleClickOpen} className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Đổi mật khẩu</a>
+											<a onClick={handleClickOpen} className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Change password</a>
 										</li>
 										<li>
 											<a onClick={() => handleLogOut()}
-												className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Đăng xuất</a>
+												className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
 										</li>
 									</ul>
 								</div>

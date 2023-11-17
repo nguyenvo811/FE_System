@@ -48,6 +48,10 @@ const getProducts = async () => {
 	return await axios.get("http://localhost:8081/products", config)
 }
 
+const findProduct = async (id) => {
+	return await axios.get(`http://localhost:8081/find/products/${id}`, config)
+}
+
 const getProduct = async (id) => {
 	return await axios.get(`http://localhost:8081/home/products/${id}`, config)
 }
@@ -57,7 +61,7 @@ const getHomeProducts = async () => {
 }
 
 const createWatch = async (data) => {
-	return await axios.post("http://localhost:8081/products/watchs/add-watch", data, config)
+	return await axios.post("http://localhost:8081/products/watches/add-watch", data, config)
 }
 
 const createLaptop = async (data) => {
@@ -74,6 +78,22 @@ const createTablet = async (data) => {
 
 const createSmartPhone = async (data) => {
 	return await axios.post("http://localhost:8081/products/smart-phones/add-smart-phone", data, config)
+}
+
+const updateTablet = async (id, data) => {
+	return await axios.patch(`http://localhost:8081/products/tablets/${id}`, data, config)
+}
+
+const updateLaptop = async (id, data) => {
+	return await axios.patch(`http://localhost:8081/products/laptops/${id}`, data, config)
+}
+
+const updateTV = async (id, data) => {
+	return await axios.patch(`http://localhost:8081/products/televisions/${id}`, data, config)
+}
+
+const updateWatch = async (id, data) => {
+	return await axios.patch(`http://localhost:8081/products/watches/${id}`, data, config)
 }
 
 const updateSmartPhone = async (id, data) => {
@@ -207,6 +227,7 @@ export {
 	changePass,
 	removeUser,
 	viewProfile,
+	findProduct,
 	getProducts,
 	getProduct,
 	getHomeProducts,
@@ -225,6 +246,10 @@ export {
 	createSmartPhone,
 	createTablet,
 	updateSmartPhone,
+	updateLaptop,
+	updateTV,
+	updateWatch,
+	updateTablet,
 	removeProduct,
 	viewWishList,
 	addToWishLish,

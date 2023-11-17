@@ -56,30 +56,30 @@ export default function AddUser(props) {
   ]
 
 	const renderGender = [
-    {id: "male", value: "Nam"},
-    {id: "female", value: "Nữ"},
+    {id: "male", value: "Male"},
+    {id: "female", value: "Female"},
   ]
 
   const validation = () => {
     let msg = {}
     if (newUser.email === "") {
-      msg.email = "Vui lòng điền email!"
+      msg.email = "Do not empty the field!"
     } else if (!isEmail(newUser.email)) {
-      msg.email = "Email không đúng định dạng!"
+      msg.email = "Incorrect email form!"
 		} if (newUser.password === "") {
-      msg.password = "Vui lòng điền mật khẩu!"
+      msg.password = "Do not empty the field!"
     } else if (newUser.password.length < 6) {
-      msg.password = "Mật khẩu phải trên 6 ký tự!"
+      msg.password = "Password must be greater than 6!"
     } if (newUser.fullName === "") {
-      msg.fullName = "Vui lòng điền họ và tên!"
+      msg.fullName = "Do not empty the field!"
     } if (newUser.phoneNumber === "") {
-      msg.phoneNumber = "Vui lòng điền số điện thoại!"
+      msg.phoneNumber = "Do not empty the field!"
     } else if (newUser.phoneNumber.length < 10 || newUser.phoneNumber.length > 10) {
-      msg.phoneNumber = "Số điện thoại không đúng!"
+      msg.phoneNumber = "Incorrect phone number form!"
     } if (newUser.role === "") {
-      msg.role = "Vui lòng chọn vai trò!"
+      msg.role = "Do not empty the field!"
     } if (newUser.gender === "") {
-      msg.gender = "Vui lòng chọn giới tính!"
+      msg.gender = "Do not empty the field!"
     } 
     
     setError(msg)
@@ -159,7 +159,7 @@ export default function AddUser(props) {
           onClose={handleClose}
         >
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-            Thêm sản phẩm
+            Add user
           </DialogTitle>
           <IconButton
             aria-label="close"
@@ -208,13 +208,13 @@ export default function AddUser(props) {
 									<div className="mb-2 block">
 										<Label
 											htmlFor="password"
-											value="Mật khẩu"
+											value="Password"
 										/>
 									</div>
 									<TextInput
 										id="password"
 										name="password"
-										placeholder="Mật khẩu"
+										placeholder="Password"
 										required
 										type="password"
 										value={newUser.password}
@@ -231,13 +231,13 @@ export default function AddUser(props) {
                   <div className="mb-2 block">
                     <Label
                       htmlFor="fullName"
-                      value="Họ và tên"
+                      value="Full name"
                     />
                   </div>
                   <TextInput
                     id="fullName"
                     name="fullName"
-                    placeholder="Nguyễn Văn A"
+                    placeholder="Full name"
                     required
                     type="text"
                     value={newUser.fullName}
@@ -252,13 +252,13 @@ export default function AddUser(props) {
 									<div className="mb-2 block">
 										<Label
 											htmlFor="phoneNumber"
-											value="Số điện thoại"
+											value="Phone number"
 										/>
 									</div>
 									<TextInput
 										id="phoneNumber"
 										name="phoneNumber"
-										placeholder="0912365478"
+										placeholder="Phone number"
 										required
 										value={newUser.phoneNumber}
 										onChange={handleChangeInput}
@@ -274,7 +274,7 @@ export default function AddUser(props) {
                   <div className="mb-2 block">
                     <Label
                       htmlFor="gender"
-                      value="Giới tính"
+                      value="Gender"
                     />
                   </div>
                   <Select
@@ -285,7 +285,7 @@ export default function AddUser(props) {
                     onChange={handleChangeInput}
                   >
 										<option value={"gender"}>
-                      Chọn giới tính
+                      Choose gender
                     </option>
                     {renderGender?.map((option) => (
                       <option key={option.id} value={option.value}>
@@ -302,7 +302,7 @@ export default function AddUser(props) {
 									<div className="mb-2 block">
 										<Label
 											htmlFor="role"
-											value="Vai trò"
+											value="Role"
 										/>
 									</div>
 									<Select
@@ -313,7 +313,7 @@ export default function AddUser(props) {
 										onChange={handleChangeInput}
 									>
 									 	<option value={"role"}>
-                      Chọn vai trò
+                      Choose role
                     </option>
                     {renderRole?.map((option) => (
                       <option key={option.id} value={option.value}>
@@ -331,10 +331,10 @@ export default function AddUser(props) {
           </DialogContent>
           <DialogActions>
             <Button variant="outlined" color="inherit" onClick={handleClose}>
-              Hủy
+              Cancel
             </Button>
             <Button variant="contained" onClick={handleSubmit}>
-              Xác nhận
+              Confirm
             </Button>
           </DialogActions>
         </Dialog>

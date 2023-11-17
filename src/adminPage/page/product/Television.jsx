@@ -31,7 +31,7 @@ export default function Television(props) {
 						placeholder="65'"
 						required
 						type="text"
-						value={data?.screenSize}
+						defaultValue={data?.screenSize}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -48,7 +48,7 @@ export default function Television(props) {
 						required
 						placeholder="With stand: 16kg"
 						type="text"
-						value={data?.weight}
+						defaultValue={data?.weight}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -67,7 +67,7 @@ export default function Television(props) {
 						required
 						placeholder="4K"
 						type="text"
-						value={data?.resolution}
+						defaultValue={data?.resolution}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -84,7 +84,7 @@ export default function Television(props) {
 						required
 						placeholder="SMART 4K TV"
 						type="text"
-						value={data?.productType}
+						defaultValue={data?.productType}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -103,7 +103,7 @@ export default function Television(props) {
 						required
 						placeholder="HDMI x 3 (1 port with eARC), USB 2.0 x 2, Ethernet (LAN) x 1, CI Slot x 1, 3.5mm Headphone port x 1"
 						type="text"
-						value={data?.port}
+						defaultValue={data?.port}
 						onChange={handleChangeInput}
 					/>
 				</div>

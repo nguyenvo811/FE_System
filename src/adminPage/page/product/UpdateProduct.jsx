@@ -20,7 +20,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import { Combobox, Label, TextInput, Select, Textarea } from 'flowbite-react';
-import { createLaptop, createWatch, createSmartPhone, createTV, createTablet, getCategories, getBrands, getCategory, updateSmartPhone } from '../../../api/apiServices';
+import { createLaptop, createWatch, createSmartPhone, createTV, createTablet, getCategories, getBrands, getCategory, updateSmartPhone, updateLaptop, updateWatch, updateTV, updateTablet } from '../../../api/apiServices';
 import UploadFile from '../../../asset/library/UploadFile';
 import Watch from './Watch';
 import Laptop from './Laptop';
@@ -168,12 +168,7 @@ export default function UpdateProduct(props) {
     moreVariants: []
   }]);
 
-  const [tmpVariants, setTmpVariants] = React.useState(
-    variants?.map((variant) => ({
-      ...variant,
-      images: []
-    }))
-  );
+  const [tmpVariants, setTmpVariants] = React.useState([]);
 
   const [moreVariants, setMoreVariants] = React.useState([{
     version: "",
@@ -184,11 +179,17 @@ export default function UpdateProduct(props) {
   console.log(data)
 
   React.useEffect(() => {
-    setVariants(data?.variants)
-    setSelectedValue(data?.category?._id)
-    setSelectedBrandValue(data?.brand?._id)
-    setSelectedProductBrandValue(data?.productBrand)
-  }, [data?.category?._id, data?.brand?._id, data?.productBrand]);
+    if (data) {
+      setVariants(data?.variants)
+      setTmpVariants(data?.variants?.map((variant) => ({
+        ...variant,
+        images: []
+      })))
+      setSelectedValue(data?.category?._id)
+      setSelectedBrandValue(data?.brand?._id)
+      setSelectedProductBrandValue(data?.productBrand)
+    }
+  }, [data?.variants, data?.category?._id, data?.brand?._id, data?.productBrand]);
 
   const [error, setError] = React.useState({
     productName: "",
@@ -217,6 +218,12 @@ export default function UpdateProduct(props) {
       moreVariants: []
     }
 
+    let newTmpField = {
+      color: "",
+      images: [],
+      moreVariants: []
+    }
+
     let newMoreVariant = {
       version: "",
       price: "",
@@ -225,6 +232,7 @@ export default function UpdateProduct(props) {
 
     setVariants([...variants, newField]);
     setMoreVariants([newMoreVariant]);
+    setTmpVariants([...tmpVariants, newTmpField])
   };
 
   const handleColorChange = (index, event) => {
@@ -239,10 +247,8 @@ export default function UpdateProduct(props) {
     const files = event.target.files;
 
     for (const file of files) { 
-      tmpVariantsCopy[index].images.push(file);
+      tmpVariantsCopy[index]?.images?.push(file);
     }
-
-    console.log("copy", tmpVariantsCopy)
 
     setTmpVariants(tmpVariantsCopy);
   };
@@ -264,6 +270,13 @@ export default function UpdateProduct(props) {
     variantsCopy[index].images.splice(imageIndex, 1);
 
     setVariants(variantsCopy);
+  };
+
+  const handleTmpImageDeletion = (index, imageTmpIndex) => {
+    const tmpVariantsCopy = [...tmpVariants];
+    tmpVariantsCopy[index].images.splice(imageTmpIndex, 1);
+
+    setTmpVariants(tmpVariantsCopy);
   };
 
   const handleVariantDeletion = (index) => {
@@ -356,7 +369,7 @@ export default function UpdateProduct(props) {
             </IconButton>
           </div>
           <div className='p-2 font-sans font-bold'>
-            <h4>Product {index + 1}</h4>
+            <h4>Product color {index + 1}</h4>
           </div>
         </div>
         <div className='grid grid-cols-2 gap-2 m-2'>
@@ -408,13 +421,13 @@ export default function UpdateProduct(props) {
                 </div>
               </div>
             ))}
-            {tmpVariants[index]?.images?.map((image, imageIndex) => (
-              <div key={imageIndex} className='relative'>
+            {tmpVariants[index]?.images?.map((image, imageTmpIndex) => (
+              <div key={imageTmpIndex} className='relative'>
                 <div className='h-36 w-36 m-auto relative group border-dashed border-2 border-gray-300 rounded-xl'>
                   <img src={URL.createObjectURL(image)} alt="Preview" className='w-full h-full rounded-xl bg-center bg-cover ' />
                   <div className='absolute top-0 right-0'>
                     <IconButton>
-                      <HighlightOffIcon onClick={(e) => handleImageDeletion(index, imageIndex)} />
+                      <HighlightOffIcon onClick={(e) => handleTmpImageDeletion(index, imageTmpIndex)} />
                     </IconButton>
                   </div>
                 </div>
@@ -535,8 +548,17 @@ export default function UpdateProduct(props) {
         ...element,
         images: upfiles.map((upfile) => upfile.data),
       };
-      updatedVariants.push(updatedElement);
-      console.log(updatedVariants)
+
+      for (let tmpIndex = 0; tmpIndex < variants.length; tmpIndex++) {
+        const element = variants[tmpIndex];
+        if (tmpIndex === index) {
+          const updatedImages = {
+          ...element,
+          images: [...element.images?.map((image) => image), ...updatedElement.images?.map((image) => image)],
+        };
+        updatedVariants.push(updatedImages);
+        }
+      }
     }
 
     updatedData.variants = updatedVariants;
@@ -550,15 +572,15 @@ export default function UpdateProduct(props) {
       console.log(showValue.categoryName)
       switch (showValue.categoryName) {
         case "Laptop":
-          return await createLaptop(updatedData);
+          return await updateLaptop(updatedData);
         case "Watch":
-          return await createWatch(updatedData);
+          return await updateWatch(updatedData);
         case "Smart phone":
-          return await updateSmartPhone(data._id, updatedData);
+          return await updateSmartPhone(data?._id, updatedData);
         case "Television":
-          return await createTV(updatedData);
+          return await updateTV(updatedData);
         case "Tablet":
-          return await createTablet(updatedData);
+          return await updateTablet(updatedData);
         default:
           setError({ category: "" });
       }
@@ -568,7 +590,7 @@ export default function UpdateProduct(props) {
     return await createProductType(selectedValue)
       .then((response) => {
         console.log(response.data.data)
-        row(response.data.data);
+        row(response.data.data.value);
         clearState();
       })
       .catch((error) => {
@@ -587,7 +609,7 @@ export default function UpdateProduct(props) {
           onClose={close}
         >
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-            Thêm sản phẩm
+            Update product
           </DialogTitle>
           <IconButton
             aria-label="close"

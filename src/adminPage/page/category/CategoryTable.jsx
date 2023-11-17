@@ -31,7 +31,7 @@ export default function CategoryTable() {
 				<div className="mb-1 w-full">
 					<div className="mb-4 pt-16">
 						<h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">
-							DANH SÁCH THỂ LOẠI SẢN PHẨM
+							CATEGORY LIST
 						</h1>
 						<Breadcrumb className="mb-4">
 							<Breadcrumb.Item href="#">
@@ -40,7 +40,7 @@ export default function CategoryTable() {
 									<span className="dark:text-white">Home</span>
 								</div>
 							</Breadcrumb.Item>
-							<Breadcrumb.Item>Thể loại sản phẩm</Breadcrumb.Item>
+							<Breadcrumb.Item>Category</Breadcrumb.Item>
 						</Breadcrumb>
 					</div>
 				</div>
@@ -148,7 +148,7 @@ const Table = function() {
 			<div className="flex pb-4 justify-end">
 				<Button variant="outlined" onClick={handleClickOpen}>
 				<AddIcon />
-					THÊM LOẠI SẢN PHẨM
+					CREATE NEW
 				</Button>
 			</div>
 			<div className="flex justify-center">

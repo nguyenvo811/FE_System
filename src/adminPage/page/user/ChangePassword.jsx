@@ -49,17 +49,17 @@ export default function ChangePassword(props) {
   const validation = () => {
     let msg = {}
     if (data.oldPass === "") {
-      msg.oldPass = "Vui lòng điền mật khẩu cũ!"
+      msg.oldPass = "Do not empty the field!"
     } else if (alertError !== "") {
       msg.oldPass = alertError
     } if (data.newPass === "") {
-      msg.newPass = "Vui lòng điền mật khẩu mới!"
+      msg.newPass = "Do not empty the field!"
     } else if (data.newPass.length < 6) {
-      msg.newPass = "Mật khẩu phải trên 6 ký tự!"
+      msg.newPass = "Password must be greater than 6!"
     } if (data.confirmPass === "") {
-      msg.confirmPass = "Vui lòng xác nhận lại mật khẩu!"
+      msg.confirmPass = "Do not empty the field!"
     } if (data.confirmPass !== data.newPass) {
-      msg.confirmPass = "Mật khẩu không trung khớp!"
+      msg.confirmPass = "Password do not match!"
     }
     
     setError(msg)
@@ -137,7 +137,7 @@ export default function ChangePassword(props) {
           onClose={handleClose}
         >
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-            Thêm sản phẩm
+            Change password
           </DialogTitle>
           <IconButton
             aria-label="close"
@@ -165,13 +165,13 @@ export default function ChangePassword(props) {
                   <div className="mb-2 block">
                     <Label
                       htmlFor="oldPass"
-                      value="Mật khẩu cũ"
+                      value="Old password"
                     />
                   </div>
                   <TextInput
                     id="oldPass"
                     name="oldPass"
-                    placeholder="Mật khẩu cũ"
+                    placeholder="Old password"
                     required
                     type="password"
                     value={data.oldPass}
@@ -188,13 +188,13 @@ export default function ChangePassword(props) {
 									<div className="mb-2 block">
 										<Label
 											htmlFor="newPass"
-											value="Mật khẩu mới"
+											value="New password"
 										/>
 									</div>
 									<TextInput
 										id="newPass"
 										name="newPass"
-										placeholder="Mật khẩu mới"
+										placeholder="New password"
 										required
 										type="password"
 										value={data.newPass}
@@ -211,13 +211,13 @@ export default function ChangePassword(props) {
                   <div className="mb-2 block">
                     <Label
                       htmlFor="confirmPass"
-                      value="Xác nhận mật khẩu mới"
+                      value="Password confirmation"
                     />
                   </div>
                   <TextInput
                     id="confirmPass"
                     name="confirmPass"
-                    placeholder="Xác nhận lại mật khẩu mới"
+                    placeholder="Password confirmation"
                     required
                     type="password"
                     value={data.confirmPass}
@@ -233,10 +233,10 @@ export default function ChangePassword(props) {
           </DialogContent>
           <DialogActions>
             <Button variant="outlined" color="inherit" onClick={handleClose}>
-              Hủy
+              Cancel
             </Button>
             <Button variant="contained" onClick={handleSubmit}>
-              Xác nhận
+              Confirm
             </Button>
           </DialogActions>
         </Dialog>

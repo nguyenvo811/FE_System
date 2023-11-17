@@ -9,7 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddProduct from "./AddProduct";
-import { getProducts, removeProduct } from "../../../api/apiServices";
+import { findProduct, getProducts, removeProduct } from "../../../api/apiServices";
 import AlertProduct from "./AlertProduct";
 import UpdateProduct from "./UpdateProduct";
 // import MaterialReactTable from 'material-react-table';
@@ -87,14 +87,16 @@ const Table = function() {
   }, [])
 
 	// Update the row.
-	const updateRow = (value) => {
+	const updateRow = async (value) => {
 		const index = data.findIndex((p) => p._id === value._id);
 		if (index !== -1) {
+			const response = await findProduct(value._id);
 			const updatedData = [...data];
-			updatedData[index] = value;
+			updatedData[index] = response.data.data.findProduct;
 			setData(updatedData);
 		} else {
-			setData([...data, value]);
+			const response = await findProduct(value._id);
+			setData([...data, response.data.data.findProduct]);
 		}
   };
 
@@ -139,17 +141,17 @@ const Table = function() {
     },
     { 
 			field: 'variants', 
-			headerName: 'Sản phẩm', 
+			headerName: 'Product', 
 			width: 100,
 			valueGetter: (params) => params.row?.variants[0]?.images[0],
 			renderCell: (params) => {
       	return <img src={params?.row?.variants[0]?.images[0]} alt={params.value} className="w-20 h-20 object-cover object-center" />;
    	 }, 
 		},
-    { field: 'productName', headerName: 'Tên sản phẩm', width: 200, },
+    { field: 'productName', headerName: 'Product name', width: 200, },
 		{ 
 			field: 'category', 
-			headerName: 'Loại sản phẩm', 
+			headerName: 'Category', 
 			width: 200, 
 			valueGetter: (params) => params?.value?.categoryName 
 		}
@@ -160,7 +162,7 @@ const Table = function() {
 			<div className="flex pb-4 justify-end">
 				<Button variant="outlined" onClick={handleClickOpen}>
 				<AddIcon />
-					THÊM SẢN PHẨM
+					CREATE NEW
 				</Button>
 			</div>
 			<div className="flex justify-center">

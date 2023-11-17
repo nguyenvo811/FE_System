@@ -139,11 +139,11 @@ export default function AddBrand(props) {
   const validation = () => {
     let msg = {}
     if (newBrand.brandName === "") {
-      msg.brandName = "Vui lòng nhập tên danh mục sản phẩm!"
+      msg.brandName = "Do not empty the field!"
     } else if (msgErr !== "") {
       msg.brandName = msgErr
     } if (newBrand.description === "") {
-      msg.description = "Vui lòng nhập mô tả danh mục!"
+      msg.description = "Do not empty the field!"
     } 
     
     setError(msg)
@@ -221,7 +221,7 @@ export default function AddBrand(props) {
           onClose={handleClose}
         >
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-            Thêm danh mục sản phẩm
+            Create brand
           </DialogTitle>
           <IconButton
             aria-label="close"
@@ -301,10 +301,10 @@ export default function AddBrand(props) {
           </DialogContent>
           <DialogActions>
             <Button variant="outlined" color="inherit" onClick={handleClose}>
-              Hủy
+              Cancel
             </Button>
             <Button variant="contained" onClick={handleSubmit}>
-              Xác nhận
+              Confirm
             </Button>
           </DialogActions>
         </Dialog>

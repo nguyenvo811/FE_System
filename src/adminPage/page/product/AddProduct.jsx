@@ -236,9 +236,6 @@ export default function AddProduct(props) {
   };
 
   const handleVersionChange = (index, indexTemp, event) => {
-    console.log("product id", index)
-    console.log("moreVariant id", indexTemp)
-    // setVariants(variants[index].moreVariants[indexTemp].version = event.target.value);
     setMoreVariants(variants[index].moreVariants[indexTemp].version = event.target.value);
   };
 
@@ -352,7 +349,7 @@ export default function AddProduct(props) {
             </IconButton>
           </div>
           <div className='p-2 font-sans font-bold'>
-            <h4>Product {index + 1}</h4>
+            <h4>Product color {index + 1}</h4>
           </div>
         </div>
         <div className='grid grid-cols-2 gap-2 m-2'>
@@ -570,7 +567,7 @@ export default function AddProduct(props) {
           onClose={close}
         >
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-            Thêm sản phẩm
+            Create product
           </DialogTitle>
           <IconButton
             aria-label="close"

@@ -12,22 +12,22 @@ export default function Sidebar() {
 		{
 			icon: <HiTag size='1.3rem' />,
 			label: "Product",
-			path: "/products"
+			path: "/managements/products"
 		},
 		{
 			icon: <HiUsers size='1.2rem' />,
 			label: "User",
-			path: "/user-list"
+			path: "/managements/user-list"
 		},
 		{
 			icon: <HiUsers size='1.2rem' />,
 			label: "Category",
-			path: "/categories"
+			path: "/managements/categories"
 		},
 		{
 			icon: <HiUsers size='1.2rem' />,
 			label: "Brand",
-			path: "/brands"
+			path: "/managements/brands"
 		},
 		{
 			icon: <HiUsers size='1.2rem' />,

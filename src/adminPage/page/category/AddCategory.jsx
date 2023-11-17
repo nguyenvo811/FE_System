@@ -52,9 +52,9 @@ export default function AddCategory(props) {
   const validation = () => {
     let msg = {}
     if (newCategory.categoryName === "") {
-      msg.categoryName = "Không được bỏ trống ô!"
+      msg.categoryName = "Do not empty the field!"
     } if (newCategory.description === "") {
-      msg.description = "Không được bỏ trống ô!"
+      msg.description = "Do not empty the field!"
     }
 
     setError(msg)
@@ -124,7 +124,7 @@ export default function AddCategory(props) {
           onClose={handleClose}
         >
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-            Thêm sản phẩm
+            Add category
           </DialogTitle>
           <IconButton
             aria-label="close"
@@ -152,13 +152,13 @@ export default function AddCategory(props) {
                   <div className="mb-2 block">
                     <Label
                       htmlFor="categoryName"
-                      value="Loại sản phẩm"
+                      value="Category name"
                     />
                   </div>
                   <TextInput
                     id="categoryName"
                     name="categoryName"
-                    placeholder="Loại sản phẩm"
+                    placeholder="Category name"
                     required
                     type="text"
                     value={newCategory.categoryName}
@@ -174,13 +174,13 @@ export default function AddCategory(props) {
                 <div className="mb-2 block">
                   <Label
                     htmlFor="description"
-                    value="Mô tả loại sản phẩm"
+                    value="Description"
                   />
                 </div>
                 <Textarea
                   id="description"
                   name="description"
-                  placeholder="Mô tả loại sản phẩm"
+                  placeholder="Description"
                   required
                   rows={4}
                   value={newCategory.description}
@@ -195,10 +195,10 @@ export default function AddCategory(props) {
           </DialogContent>
           <DialogActions>
             <Button variant="outlined" color="inherit" onClick={handleClose}>
-              Hủy
+              Cancel
             </Button>
             <Button variant="contained" onClick={handleSubmit}>
-              Xác nhận
+              Confirm
             </Button>
           </DialogActions>
         </Dialog>

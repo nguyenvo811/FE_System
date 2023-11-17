@@ -29,10 +29,10 @@ function App() {
           </Route>
           <Route index path='/sign-in' element={<Authentication />} />
           <Route element={<LayoutAdmin />}>
-            <Route index path='/products' element={<ProductTable />} />
-            <Route path='/categories' element={<CategoryTable />} />
-            <Route path='/user-list' element={<UserTable />} />
-            <Route path='/brands' element={<BrandTable />} />
+            <Route index path='/managements/products' element={<ProductTable />} />
+            <Route path='/managements/categories' element={<CategoryTable />} />
+            <Route path='/managements/user-list' element={<UserTable />} />
+            <Route path='/managements/brands' element={<BrandTable />} />
             <Route path='/management/orders' element={<OrderTable />} />
           </Route>
         </Routes>

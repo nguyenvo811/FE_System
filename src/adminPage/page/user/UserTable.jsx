@@ -31,7 +31,7 @@ export default function UserTable() {
 				<div className="mb-1 w-full">
 					<div className="mb-4 pt-16">
 						<h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">
-							DANH SÁCH NGƯỜI DÙNG
+							USER LIST
 						</h1>
 						<Breadcrumb className="mb-4">
 							<Breadcrumb.Item href="#">
@@ -40,7 +40,7 @@ export default function UserTable() {
 									<span className="dark:text-white">Home</span>
 								</div>
 							</Breadcrumb.Item>
-							<Breadcrumb.Item>Người dùng</Breadcrumb.Item>
+							<Breadcrumb.Item>User</Breadcrumb.Item>
 						</Breadcrumb>
 					</div>
 				</div>
@@ -140,10 +140,10 @@ const Table = function() {
       },
     },
     { field: 'email', headerName: 'Email', width: 200, },
-    { field: 'fullName', headerName: 'Họ và tên' },
-		{ field: 'phoneNumber', headerName: 'Số điện thoại', width: 200, },
-    { field: 'gender', headerName: 'Giới tính' },
-		{ field: 'role', headerName: 'Vai trò', width: 200, },
+    { field: 'fullName', headerName: 'Full name' },
+		{ field: 'phoneNumber', headerName: 'Number phone', width: 200, },
+    { field: 'gender', headerName: 'Gender' },
+		{ field: 'role', headerName: 'Role', width: 200, },
   ], []);
 
 	return (
@@ -151,7 +151,7 @@ const Table = function() {
 			<div className="flex pb-4 justify-end">
 				<Button variant="outlined" onClick={handleClickOpen}>
 				<AddIcon />
-					THÊM NGƯỜI DÙNG
+					CREATE NEW
 				</Button>
 			</div>
 			<div className="flex justify-center">

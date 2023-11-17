@@ -31,7 +31,7 @@ export default function Tablet(props) {
 						placeholder="Super Retina XDR"
 						required
 						type="text"
-						value={data?.screenTech}
+						defaultValue={data?.screenTech}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -48,7 +48,7 @@ export default function Tablet(props) {
 						required
 						placeholder="Kirin 710A"
 						type="text"
-						value={data?.processorChip}
+						defaultValue={data?.processorChip}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -68,7 +68,7 @@ export default function Tablet(props) {
 						placeholder="Mali-G57"
 						required
 						type="text"
-						value={data?.graphicsChip}
+						defaultValue={data?.graphicsChip}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -85,7 +85,7 @@ export default function Tablet(props) {
 						required
 						placeholder="iOS 17"
 						type="text"
-						value={data?.operatingSystem}
+						defaultValue={data?.operatingSystem}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -105,7 +105,7 @@ export default function Tablet(props) {
 						placeholder="Wi-Fi 802.11 a/b/g/n/ac, Dual-band"
 						required
 						type="text"
-						value={data?.wifi}
+						defaultValue={data?.wifi}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -122,7 +122,7 @@ export default function Tablet(props) {
 						required
 						placeholder="512GB"
 						type="text"
-						value={data?.internalMemory}
+						defaultValue={data?.internalMemory}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -142,7 +142,7 @@ export default function Tablet(props) {
 						placeholder="8GB"
 						required
 						type="text"
-						value={data?.ram}
+						defaultValue={data?.ram}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -159,7 +159,7 @@ export default function Tablet(props) {
 						required
 						placeholder="v5.1, LE"
 						type="text"
-						value={data?.bluetooth}
+						defaultValue={data?.bluetooth}
 						onChange={handleChangeInput}
 					/>
 				</div>
@@ -179,7 +179,7 @@ export default function Tablet(props) {
 						placeholder="H 250.6 mm - W 174.1 mm - D 7.5 mm - Weight 487 g"
 						required
 						type="text"
-						value={data?.dimensionsNWeight}
+						defaultValue={data?.dimensionsNWeight}
 						onChange={handleChangeInput}
 					/>
 				</div>

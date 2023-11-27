@@ -7,16 +7,39 @@ import StateContext from "../component/StateContext";
 import Bottom from "../component/Bottom";
 import Header from "../component/Header";
 import ASide from "../component/ASide";
-import { getCategories } from "../../api/apiServices";
+import { getCategories, viewCart, viewProfile, viewWishList } from "../../api/apiServices";
 
 export default function LayoutClient(){
   // State variable here
   const [open, setOpen] = React.useState(false);
 
   const [selectCategory, setSelectCategory] = React.useState([]);
-  const [selectBrand, setSelectBrand] = React.useState([]);
+  const [cartCount, setCartCount] = React.useState(0);
+  const [favCount, setFavCount] = React.useState(0);
+  const [profile, setProfile] = React.useState([]);
+  const [isSignIn, setIsSignIn] = React.useState(false);
 
-	// Get categories 
+  const countCartTotal = () => {
+    viewCart()
+    .then(res => {
+      setCartCount(res.data.data.cartItem.length);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  };
+  
+  const countFavTotal = () => {
+    viewWishList()
+    .then(res => {
+      console.log(res.data.data)
+      setFavCount(res.data.data.wishListItem.length);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  };
+
   React.useEffect(() => {
     getCategories()
       .then(res => {
@@ -29,12 +52,23 @@ export default function LayoutClient(){
           console.log(err.response.data.message);
         }
       })
+      viewProfile()
+      .then(res => {
+        console.log(res.data.data)
+        setProfile(res.data.data)
+        countCartTotal()
+        countFavTotal()
+        setIsSignIn(true)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }, []);
 
   return (
     <>
-      <StateContext.Provider value={{ open, setOpen }}>
-        <Header category={selectCategory} />
+      <StateContext.Provider value={{ open, setOpen, cartCount, countCartTotal, favCount, countFavTotal, profile, isSignIn }}>
+        <Header category={selectCategory} isSignIn={isSignIn} setIsSignIn={setIsSignIn}/>
           <ASide category={selectCategory} />
           <MainContent />
         <div className="mt-4">

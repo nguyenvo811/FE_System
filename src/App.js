@@ -14,6 +14,8 @@ import slug from './resource/slug';
 import ProductDetail from './clientPage/page/ProductDetail';
 import OrderTable from './adminPage/page/order/OrderTable';
 import Orders from './clientPage/page/Orders';
+import FindProductByCategory from './clientPage/page/FindProductByCategory';
+import SearchResult from './clientPage/page/SearchResult';
 
 function App() {
   return (
@@ -22,10 +24,12 @@ function App() {
         <Routes>
           <Route element={<LayoutClient />}>
             <Route index path='/' element={<Home />} />
-            <Route index path='/cart' element={<Cart />} />
-            <Route index path='/favorites' element={<Favorites />} />
-            <Route index path='/orders' element={<Orders />} />
-            <Route index path={slug.DETAIL} element={<ProductDetail />} />
+            <Route path='/cart' element={<Cart />} />
+            <Route path='/favorites' element={<Favorites />} />
+            <Route path='/orders' element={<Orders />} />
+            <Route path={slug.DETAIL} element={<ProductDetail />} />
+            <Route path='/search/:categoryName' element={<FindProductByCategory />} />
+            <Route path={slug.SEARCH} element={<SearchResult />} />
           </Route>
           <Route index path='/sign-in' element={<Authentication />} />
           <Route element={<LayoutAdmin />}>

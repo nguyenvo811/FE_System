@@ -1,42 +1,35 @@
-import { React, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { React, useEffect, useState, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 // import FormatPrice from "../../components/FormatPrice/FormatPrice";
 import queryString from "query-string";
 import { getProduct, addToWishLish, viewWishList, addToCart } from "../../api/apiServices";
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import Rating from "../component/Rating";
 import Comment from "../component/Comment";
+import FormatCurrency from "../../asset/FormatCurrency";
+import StateContext from "../component/StateContext";
+
+function useStateContext() {
+  // Get the context value
+  const context = useContext(StateContext);
+
+  // Throw an error if the context is undefined
+  if (context === undefined) {
+    throw new Error('useStateContext must be used within a StateContext.Provider');
+  }
+
+  // Return the context value
+  return context;
+}
 
 export default function ProductDetail() {
+  const { countCartTotal, countFavTotal, isSignIn } = useStateContext();
+  const navigate = useNavigate();
   const [fav, setFav] = useState(true);
-  const [favCount, setFavCount] = useState(0);
-  const [isFav, setIsFav] = useState([]);
   const [product, setProduct] = useState([]);
   const [userComment, setUserComment] = useState([]);
   const location = useLocation();
   const productID = queryString.parse(location.search);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    getProduct(productID._id)
-      .then(res => {
-        setProduct(res.data.data.findProduct)
-        setUserComment(res.data.data.findComment)
-      })
-
-    // viewWishList()
-    // .then(res => {
-    //   setIsFav(res.data.data)
-    // })
-    // .catch(err => {
-    //   console.log(err)
-    // })
-  }, [])
-
-  console.log(product)
-  console.log(userComment)
-
-  const selectValue = product?.variants?.find(val => val._id === location.state)
 
   // Select color and version options to change attributes
   const [color, setColor] = useState("");
@@ -44,6 +37,46 @@ export default function ProductDetail() {
   const [version, setVersion] = useState("");
   const [versionChange, setVersionChange] = useState("");
   const [price, setPrice] = useState("");
+
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  
+    getProduct(productID._id)
+      .then((res) => {
+        setProduct(res.data.data.findProduct);
+        setUserComment(res.data.data.findComment);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  
+  useEffect(() => {
+    // Fetch the wishlist data only if the user is signed in
+    if (isSignIn) {
+      viewWishList()
+        .then((wishlistRes) => {
+          const findItem = wishlistRes?.data?.data?.wishListItem?.find((p) => {
+            const isSameProduct = p.product._id === productID._id;
+            const isSameColor = color ? color === p.color : false;
+            const isSameVersion = version ? version === p.version : false;
+  
+            return isSameProduct && isSameColor && isSameVersion;
+          });
+  
+          setFav(!!findItem);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      // When the user is not signed in, make sure fav is false
+      setFav(false);
+    }
+  }, [isSignIn, productID, color, version]);
+
+  const selectValue = product?.variants?.find(val => val._id === location.state)
 
   const handleSelectColor = (event) => {
     // Get the selected color value
@@ -98,7 +131,13 @@ export default function ProductDetail() {
     setCurrentIndex(slideIndex);
   };
 
-  const findItem = isFav?.wishListItem?.find(p => p.product._id === product._id)
+  // const findItem = isFav?.wishListItem?.find((p) => {
+  //   const isSameProduct = p.product._id === product._id;
+  //   const isSameColor = color ? color === p.color : false;
+  //   const isSameVersion = version ? version === p.version : false;
+
+  //   return isSameProduct && isSameColor && isSameVersion;
+  // });
 
   const handleAddToCart = (id, number) => {
     const data = {
@@ -109,24 +148,29 @@ export default function ProductDetail() {
     }
     console.log(data)
     addToCart(data)
-      .then(res => { console.log(res) })
+      .then(res => {
+        console.log(res.data.data)
+        countCartTotal();
+      })
       .then(err => console.log(err))
   }
 
-  const handleAddToWishLish = async (id) => {
-    console.log(id, fav)
-    // addToWishLish(id, fav)
-    // .then(() => {
-    //   viewWishList()
-    //   .then(res => {
-    //     setIsFav(res.data.data)
-    //   })
-    // })
-    // .catch(err => {
-    //   console.log(err)
-    // })
+  const handleAddToWishList = async (id) => {
+    const data = {
+      product: id,
+      isLiked: fav,
+      color: color ? color : colorChange.color,
+      version: version ? version : versionChange.version
+    }
+    addToWishLish(data)
+      .then((res) => {
+        console.log(res.data.data)
+        countFavTotal();
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
-
 
   return (
     <div class="m-auto py-4 pt-10 relative">
@@ -293,18 +337,24 @@ export default function ProductDetail() {
               <div class="flex">
                 <p className="">
                   <span class="title-font font-medium text-2xl text-gray-900">
-                    {colorChange ? price : version === selectValue?.moreVariants[0]?._id ? selectValue?.moreVariants[0]?.price : versionChange?.price}
-                  </span>
-                  <span class="pl-2 title-font font-medium text-md text-gray-900 line-through">
-                    {version ? version === selectValue?.moreVariants[0]?._id ? selectValue?.moreVariants[0]?.price : versionChange?.price : selectValue?.moreVariants[0]?.price}
+                    {colorChange ? price : version === selectValue?.moreVariants[0]?._id ? <FormatCurrency price={selectValue?.moreVariants[0]?.price} /> : <FormatCurrency price={versionChange?.price} />}
                   </span>
                 </p>
                 <button
-                  onClick={() => handleAddToCart(product._id, 1)}
-                  class="flex ml-auto text-white transition-none bg-teal-500 hover:bg-teal-600 sm:mt-0 sm:w-auto sm:flex-shrink-0 border-0 py-2 px-6 focus:outline-none rounded">Add to cart</button>
+                  onClick={() => isSignIn ? handleAddToCart(product._id, 1) : navigate("/sign-in")}
+                  class="flex ml-auto text-white transition-none bg-teal-500 hover:bg-teal-600 sm:mt-0 sm:w-auto sm:flex-shrink-0 border-0 py-2 px-6 focus:outline-none rounded"
+                >Add to cart</button>
                 <button
-                  onClick={() => { return setFav(!fav), handleAddToWishLish(product._id) }}
-                  class={`rounded-full w-10 h-10 p-0 border-0 inline-flex items-center justify-center transition-all ease-in-out duration-300 ml-4 ${findItem?.isLiked === true ? "text-red-500 bg-red-200" : "text-gray-500 bg-gray-200"}`}>
+                  onClick={() => {
+                    if (isSignIn) {
+                      setFav(!fav);
+                      handleAddToWishList(product._id);
+                    } else {
+                      navigate("/sign-in");
+                    }
+                  }}
+                  className={`rounded-full w-10 h-10 p-0 border-0 inline-flex items-center justify-center transition-all ease-in-out duration-300 ml-4 ${fav ? "text-red-500 bg-red-200" : "text-gray-500 bg-gray-200"}`}
+                >
                   <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                   </svg>

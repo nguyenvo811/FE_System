@@ -1,25 +1,29 @@
-import * as React from "react";
-import { getHomeProducts } from "../../api/apiServices";
-import { Link, useNavigate } from "react-router-dom";
-import slug from "../../resource/slug";
+import {React, useState, useEffect} from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getHomeProducts, searchProducts } from "../../api/apiServices";
 import FormatCurrency from "../../asset/FormatCurrency";
+import slug from "../../resource/slug";
 
-export default function Card() {
+export default function SearchResult(){
+	const location = useLocation()
 	const navigate = useNavigate();
-	const [listProduct, setListProduct] = React.useState([]);
-	const [rating, setRating] = React.useState([])
-
-	React.useEffect(() => {
-		getHomeProducts()
-			.then(res => {
-				setListProduct(res.data.data.findProduct)
-				setRating(res.data.data.findComment)
-			})
-			.catch(err => {
-				console.log(err)
-			})
-
-	}, [])
+	const [listProduct, setListProduct] = useState([]);
+	const [rating, setRating] = useState([])
+	const [error, setError] = useState("")
+	useEffect(() => {
+		searchProducts(location?.state)
+    .then(res => {
+      console.log(res.data.data)
+			setListProduct(res.data.data.searching)
+			setRating(res.data.data.findComment)
+      // setProducts(oldProducts => ({...oldProducts, cartItem: oldProducts.cartItem.filter(p => p.product._id != id)}));
+    })
+    .catch(error => {
+      console.log(error)
+			setError(error.response.data.message)
+    })
+	}, [location?.state])
+  console.log(error)
 
 	const childArray = listProduct?.map(val => val?.variants?.map(variant => (
 		{ ...variant, productName: val?.productName, productId: val?._id }
@@ -85,6 +89,12 @@ export default function Card() {
 	return (
 		<>
 			<div className="w-full mx-auto">
+			<div className="flex text-left">
+				<span>Products related to 
+					{/* <span className="font-bold"> "{new URLSearchParams(location.search).toString().slice(7, location.search.length).split("+")}"</span> */}
+					<span className="font-bold"> "{location?.state}"</span>
+				</span>
+			</div>
 				<div className="flex flex-wrap gap-4">
 					{listData}
 				</div>

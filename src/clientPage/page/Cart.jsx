@@ -1,10 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from "react-router-dom";
 import { addToCart, createOrder, deleteCart, deleteProductFromCart, viewCart } from "../../api/apiServices";
+import FormatCurrency from "../../asset/FormatCurrency";
+import StateContext from "../component/StateContext";
+
+function useStateContext() {
+  // Get the context value
+  const context = useContext(StateContext);
+
+  // Throw an error if the context is undefined
+  if (context === undefined) {
+    throw new Error('useStateContext must be used within a StateContext.Provider');
+  }
+
+  // Return the context value
+  return context;
+}
 
 export default function Cart() {
+  const { countCartTotal } = useStateContext();
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
@@ -80,12 +96,13 @@ export default function Cart() {
       version: version
     }
     deleteProductFromCart(data)
-      .then(() => {
-        // setProducts(oldProducts => ({...oldProducts, cartItem: oldProducts.cartItem.filter(p => p.product._id != id)}));
-        viewCart()
-          .then(res => {
-            setProducts(res.data.data)
-          })
+      .then((res) => {
+        console.log(res);
+        setProducts(oldProducts => ({
+          ...oldProducts,
+          cartItem: oldProducts.cartItem.filter(p => !(p.product._id === id && p.color === color && p.version === version))
+        }));
+        countCartTotal()
       })
       .catch(error => {
         console.log(error)
@@ -131,7 +148,6 @@ export default function Cart() {
     const getProductDetail = val?.product?.variants.find(value => value._id === val.color)
     const getColor = getProductDetail?.moreVariants?.map(value => value);
     const findVersion = getColor?.find(value => value._id === val.version)
-    console.log(getProductDetail?.color)
     return (
       <div key={index} class="pb-6 mb-2 border-b border-gray-400">
         <div className="flex md:items-center md:justify-center text-sm font-medium mt-6 gap-4">
@@ -153,7 +169,7 @@ export default function Cart() {
             </div>
             <div>
               <h2 className="max-sm:hidden">Price</h2>
-              <strong className="text-gray-700">{findVersion?.price}</strong>
+              <strong className="text-gray-700"><FormatCurrency price={findVersion?.price} /></strong>
             </div>
             <div>
               <h2 className="max-sm:hidden">Status</h2>
@@ -211,10 +227,11 @@ export default function Cart() {
       createOrder(data)
       .then(res => {
         console.log(res.data.data)
+        countCartTotal()
         deleteCart(products._id)
         .then(res => {
           clearState()
-          // navigate("/orders")
+          navigate("/orders")
           console.log(res.data.data)
         })
         .catch(error => {
@@ -335,7 +352,7 @@ export default function Cart() {
                 <span class="block w-10 h-1 bg-green-400 rounded"></span>
                 {productsCart}
                 <div class="grid justify-end items-center">
-                  <span class="title-font font-bold text-2xl text-gray-800">Total: {products.totalPrice}</span>
+                  <span class="title-font font-bold text-2xl text-gray-800">Total: <FormatCurrency price={products.totalPrice} /></span>
                 </div>
               </div>
             </div>

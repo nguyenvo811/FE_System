@@ -7,6 +7,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { useNavigate } from "react-router-dom";
 import { getOrders } from "../../api/apiServices";
+import FormatCurrency from "../../asset/FormatCurrency";
 
 export default function Orders() {
   // const [products, setProducts] = useState([]);
@@ -62,7 +63,7 @@ export default function Orders() {
                   <div className="grid w-full md:grid-cols-3 gap-2 break-all justify-between md:items-center">
                     <div>
                       <h2 className="max-sm:hidden">Product Name</h2>
-                      <span className="text-gray-700 max-sm:font-bold max-sm:text-lg">{value.product.productName}</span>
+                      <span className="text-gray-700 max-sm:font-bold max-sm:text-lg">{value?.product?.productName}</span>
                     </div>
                     <div>
                       <h2 className="max-sm:hidden">Color</h2>
@@ -85,6 +86,9 @@ export default function Orders() {
               </div>
             )
           })}
+        </div>
+        <div class="grid justify-end items-center">
+          <span class="title-font font-bold text-2xl text-gray-800">Total: <FormatCurrency price={val?.totalPrice} /></span>
         </div>
       </div>
     )

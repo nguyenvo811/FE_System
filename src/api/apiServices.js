@@ -42,10 +42,19 @@ const removeUser = async (id) => {
 const viewProfile = async () => {
 	return await axios.get("http://localhost:8081/view-profile", config)
 }
-  
+ 
+const searchProducts = async (search) => {
+	const data = {search: search}
+	console.log(data)
+	return await axios.get(`http://localhost:8081/search-products?search=${search}`)
+  }
 
 const getProducts = async () => {
 	return await axios.get("http://localhost:8081/products", config)
+}
+
+const getProductsByCategory = async (id) => {
+	return await axios.get(`http://localhost:8081/products/products-category/${id}`, config)
 }
 
 const findProduct = async (id) => {
@@ -146,27 +155,15 @@ const updateBrand = async (id, data) => {
 		})
 }
 
-const addToWishLish = async (id, isLiked) => {
-	const data = {
-	  product: id,
-	  isLiked: isLiked
-	}
-	console.log(data)
+const addToWishLish = async (data) => {
 	return await axios.post("http://localhost:8081/add-to-wish-list", data, config)
   }
   
   const viewWishList = async () => {
-	return await axios.get("http://localhost:8081/view-wish-list", {headers: {
-	  "Content-Type": "application/json",
-	  Authorization: `Bearer ${JSON.parse(localStorage.getItem("Authentication"))}`
-	}})
+	return await axios.get("http://localhost:8081/view-wish-list", config)
   }
   
-  const deleteProductFromWishList = async (id) => {
-	const data = {
-	  product: id
-	}
-	console.log(data)
+  const deleteProductFromWishList = async (data) => {
 	return await axios.delete("http://localhost:8081/delete-from-wish-list", {headers: {
 	  "Content-Type": "application/json",
 	  Authorization: `Bearer ${JSON.parse(localStorage.getItem("Authentication"))}`
@@ -212,13 +209,14 @@ const addToWishLish = async (id, isLiked) => {
   }
   
   const deleteOrder = async (id) => {
-	return await axios.delete(`http://localhost:8081/delete-order/${id}`)
+	return await axios.delete(`http://localhost:8081/delete-order/${id}`, config)
   }
   
   const updateOrder = async (id, data) => {
 	return await axios.patch(`http://localhost:8081/update-order/${id}`, data, config)
   }
 
+  
 export {
 	signIn,
 	createUser,
@@ -229,6 +227,7 @@ export {
 	viewProfile,
 	findProduct,
 	getProducts,
+	getProductsByCategory,
 	getProduct,
 	getHomeProducts,
 	getCategories,
@@ -240,6 +239,7 @@ export {
 	createBrand,
 	removeBrand,
 	updateBrand,
+	searchProducts,
 	createWatch,
 	createLaptop,
 	createTV,

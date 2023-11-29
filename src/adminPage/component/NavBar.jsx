@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-toggle/style.css"
 import { viewProfile } from "../../api/apiServices";
 import ChangePassword from "../page/user/ChangePassword";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function NavBar() {
 	const navigate = useNavigate();
@@ -58,9 +59,9 @@ export default function NavBar() {
 						<div className="flex items-center">
 							<div className="flex items-center ml-3">
 								<div>
-									<button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
+									<button type="button" className="flex text-sm rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
 										<span className="sr-only">Open user menu</span>
-										<img className="w-8 h-8 rounded-full object-cover object-center" src={profile.image} />
+                    <AccountCircleIcon />
 									</button>
 								</div>
 								<div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">

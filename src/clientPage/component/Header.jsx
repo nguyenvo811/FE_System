@@ -7,6 +7,7 @@ import StateContext from "./StateContext";
 import { getHomeProducts } from "../../api/apiServices";
 import slugify from 'slugify';
 import slug from "../../resource/slug";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 // Create a custom hook to use the context
 function useStateContext() {
@@ -208,7 +209,7 @@ export default function Header(props) {
 											required/>
 										<button 
 											type="submit" 
-											class="text-white absolute top-0 right-0 bottom-0 bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-transparent font-medium rounded-md text-xs sm:text-sm px-2 sm:px-4 sm:py-2"
+											class="text-white absolute top-0 right-0 bottom-0 bg-green-400 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-transparent font-medium rounded-md text-xs sm:text-sm px-2 sm:px-4 sm:py-2"
 											onClick={(e) => search(wordEntered, e)}
 										>Tìm kiếm</button>
 									</div>
@@ -271,11 +272,11 @@ export default function Header(props) {
 
                   <button
                     type="button"
-                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    className="text-sm"
                     onMouseOver={() => setDropdownOpen(true)}
                   >
                     <span className="sr-only">Open user menu</span>
-                    <img className="w-8 h-8 rounded-full object-cover object-center" src={profile.image} />
+                    <AccountCircleIcon />
                   </button>
 
                   {isDropdownOpen && (
@@ -298,9 +299,9 @@ export default function Header(props) {
                           <a onClick={() => navigate("/managements/products")} className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Management</a>
                         </li>
                         : ""}
-                        {/* <li>
-                          <a onClick={handleClickOpen} className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Change password</a>
-                        </li> */}
+                        <li>
+                          <a className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Change password</a>
+                        </li>
                         <li>
                           <a onClick={() => handleLogOut()}
                             className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>

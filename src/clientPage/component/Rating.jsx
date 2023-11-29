@@ -1,6 +1,19 @@
 import {React, useState} from "react";
 // import { FormatDateTimeDislay } from "../../../assets/FormatDateTimeDisplay";
 
+function formatDateTime(dateTimeString) {
+  return new Date(dateTimeString).toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZone: 'UTC'
+  });
+}
+
 export default function Rating({ user }){
   
   const comment = user?.commentList?.map((val, index) => {
@@ -31,7 +44,7 @@ export default function Rating({ user }){
                 <p class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">{val.rating} out of 5</p>
               </div>
               <p class="mt-1 text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-08"
-                title="February 8th, 2022">{user.createdAt}</time></p>
+                title="February 8th, 2022">{formatDateTime(user.createdAt)}</time></p>
             </div>
           </div>
           <div className="pb-4 text-left">

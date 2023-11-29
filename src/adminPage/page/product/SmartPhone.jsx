@@ -11,9 +11,9 @@ export default function SmartPhone(props) {
 	const { data, setData } = props;
 
 	const handleChangeInput = (e) => {
-    let { name, value } = e.target;
-    setData({ ...data, [name]: value })
-  }
+		const { name, value } = e.target;
+		setData((prevData) => ({ ...prevData, [name]: value }));
+	};
 
 	return (
 		<>

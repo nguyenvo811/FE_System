@@ -538,6 +538,7 @@ export default function UpdateProduct(props) {
       variants: variants,
       ...await choseValue(selectedValue)
     }
+    console.log(data.moreAttribute)
 
     const updatedVariants = [];
     for (let index = 0; index < tmpVariants.length; index++) {
@@ -569,7 +570,6 @@ export default function UpdateProduct(props) {
     const createProductType = async (productType) => {
       const category = await getCategory(productType);
       const showValue = category.data.data;
-      console.log(showValue.categoryName)
       switch (showValue.categoryName) {
         case "Laptop":
           return await updateLaptop(updatedData);

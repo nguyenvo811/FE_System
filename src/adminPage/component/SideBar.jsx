@@ -6,6 +6,10 @@ import {
 	HiLightBulb,
 	HiTag
 } from "react-icons/hi";
+import CategoryIcon from '@mui/icons-material/Category';
+import LabelIcon from '@mui/icons-material/Label';
+import InventoryIcon from '@mui/icons-material/Inventory';
+
 export default function Sidebar() {
 	const location = useLocation();
 	const data = [
@@ -20,17 +24,17 @@ export default function Sidebar() {
 			path: "/managements/user-list"
 		},
 		{
-			icon: <HiUsers size='1.2rem' />,
+			icon: <CategoryIcon size='1.2rem' />,
 			label: "Category",
 			path: "/managements/categories"
 		},
 		{
-			icon: <HiUsers size='1.2rem' />,
+			icon: <LabelIcon size='1.2rem' />,
 			label: "Brand",
 			path: "/managements/brands"
 		},
 		{
-			icon: <HiUsers size='1.2rem' />,
+			icon: <InventoryIcon size='1.2rem' />,
 			label: "Order",
 			path: "/management/orders"
 		}

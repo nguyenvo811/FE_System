@@ -7,6 +7,22 @@ export default function Comment({ product, color, setUserComment }) {
 	const [user, setUser] = useState([]);
 	const [comment, setComment] = useState("");
 
+	const [currentDate, setCurrentDate] = useState(new Date());
+
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+		setCurrentDate(new Date());
+		}, 60000); // Update every minute
+
+		return () => clearInterval(intervalId);
+	}, []);
+
+	const formattedDate = currentDate.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric',
+	});
+
     useEffect(() => {
 		viewProfile()
 			.then(res => {
@@ -66,10 +82,10 @@ export default function Comment({ product, color, setUserComment }) {
 			<div className="inline-flex gap-4 pt-4">
 				<div className="grid">
 					<p class="flex items-baseline">
-						<span class="text-gray-600 font-bold">Nguyen Vo</span>
+						<span class="text-gray-600 font-bold">{user.fullName}</span>
 					</p>
 					<p class="mt-1 text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-08"
-						title="February 8th, 2022">Apr. 27, 2023</time></p>
+						title="February 8th, 2022">{formattedDate}</time></p>
 				</div>
 			</div>
 			<StarRating />

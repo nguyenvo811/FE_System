@@ -8,6 +8,7 @@ import StepLabel from '@mui/material/StepLabel';
 import { useNavigate } from "react-router-dom";
 import { getOrders } from "../../api/apiServices";
 import FormatCurrency from "../../asset/FormatCurrency";
+import slugify from 'slugify';
 
 export default function Orders() {
   // const [products, setProducts] = useState([]);
@@ -32,11 +33,27 @@ export default function Orders() {
     'Delivered'
   ];
 
+  const handleClickDetails = React.useCallback(
+		async (val) => {
+			// Define the logic for handling click details
+			console.log("Item Clicked:", val);
+
+			// Example: Navigate to the product details page
+			const orderIdSlug = slugify(val?._id);
+			const orderPath = `/order-detail/${orderIdSlug}`;
+
+			navigate({
+				pathname: orderPath
+			}, {state : val?._id});
+		},
+		[navigate]
+	);
+
   const orderList = orders?.map((val, index) => {
     return (
       <div>
         <div key={index} class="my-4 space-y-4 lg:mt-0">
-          <h2 class="text-2xl font-medium text-gray-800">Order #{val._id}</h2>
+          <h2 class="text-2xl font-medium text-gray-800 cursor-pointer hover:underline" onClick={() => handleClickDetails(val)}>Order #{val._id}</h2>
           <span class="block w-10 h-1 bg-green-400 rounded"></span>
           <div className="my-4">
             <Box sx={{ width: '100%' }}>

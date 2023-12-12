@@ -41,7 +41,7 @@ export default function ProductDetail() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  
+
     getProduct(productID._id)
       .then((res) => {
         setProduct(res.data.data.findProduct);
@@ -50,8 +50,8 @@ export default function ProductDetail() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
-  
+  }, [productID._id]);
+
   useEffect(() => {
     // Fetch the wishlist data only if the user is signed in
     if (isSignIn) {
@@ -61,10 +61,10 @@ export default function ProductDetail() {
             const isSameProduct = p.product._id === productID._id;
             const isSameColor = color ? color === p.color : false;
             const isSameVersion = version ? version === p.version : false;
-  
+
             return isSameProduct && isSameColor && isSameVersion;
           });
-  
+
           setFav(!!findItem);
         })
         .catch((err) => {
@@ -336,8 +336,18 @@ export default function ProductDetail() {
               </div>
               <div class="flex">
                 <p className="">
-                  <span class="title-font font-medium text-2xl text-gray-900">
-                    {colorChange ? price : version === selectValue?.moreVariants[0]?._id ? <FormatCurrency price={selectValue?.moreVariants[0]?.price} /> : <FormatCurrency price={versionChange?.price} />}
+                  <span className="title-font font-medium text-2xl text-gray-900">
+                    {colorChange ? (
+                      // Display price when color changes
+                      <FormatCurrency price={price} />
+                    ) : (
+                      // Display price based on version or selectValue
+                      version === selectValue?.moreVariants[0]?._id ? (
+                        <FormatCurrency price={selectValue?.moreVariants[0]?.price} />
+                      ) : (
+                        <FormatCurrency price={versionChange?.price} />
+                      )
+                    )}
                   </span>
                 </p>
                 <button

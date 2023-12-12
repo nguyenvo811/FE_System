@@ -16,6 +16,7 @@ import OrderTable from './adminPage/page/order/OrderTable';
 import Orders from './clientPage/page/Orders';
 import FindProductByCategory from './clientPage/page/FindProductByCategory';
 import SearchResult from './clientPage/page/SearchResult';
+import OrderDetail from './clientPage/page/OrderDetail';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path='/orders' element={<Orders />} />
             <Route path={slug.DETAIL} element={<ProductDetail />} />
             <Route path='/search/:categoryName' element={<FindProductByCategory />} />
+            <Route path='/order-detail/:orderID' element={<OrderDetail />} />
             <Route path={slug.SEARCH} element={<SearchResult />} />
           </Route>
           <Route index path='/sign-in' element={<Authentication />} />

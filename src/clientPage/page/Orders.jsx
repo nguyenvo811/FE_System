@@ -6,7 +6,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { useNavigate } from "react-router-dom";
-import { getOrders } from "../../api/apiServices";
+import { getOrders, viewOrderDetail, viewOrders } from "../../api/apiServices";
 import FormatCurrency from "../../asset/FormatCurrency";
 import slugify from 'slugify';
 
@@ -16,7 +16,7 @@ export default function Orders() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    getOrders()
+    viewOrders()
       .then(res => {
         setOrders(res.data.data)
         console.log(res.data.data)
@@ -92,7 +92,7 @@ export default function Orders() {
                     </div>
                     <div>
                       <h2 className="max-sm:hidden">Price</h2>
-                      <strong className="text-gray-700">{getVersion?.price}</strong>
+                      <strong className="text-gray-700"><FormatCurrency price={getVersion?.price} /></strong>
                     </div>
                     <div>
                       <h2 className="max-sm:hidden">Quantity</h2>

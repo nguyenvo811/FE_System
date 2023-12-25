@@ -351,9 +351,14 @@ export default function Cart() {
                 <h2 class="text-2xl font-medium text-gray-800">Your Cart</h2>
                 <span class="block w-10 h-1 bg-green-400 rounded"></span>
                 {productsCart}
-                <div class="grid justify-end items-center">
-                  <span class="title-font font-bold text-2xl text-gray-800">Total: <FormatCurrency price={products.totalPrice} /></span>
-                </div>
+                {products?.cartTiem? 
+                  <div class="grid justify-end items-center">
+                    <span class="title-font font-bold text-2xl text-gray-800">Total: <FormatCurrency price={products.totalPrice} /></span>
+                  </div> : 
+                  <div class="grid justify-center items-center">
+                    <span class="title-font font-bold text-2xl text-gray-300">Empty cart</span>
+                  </div>
+                }
               </div>
             </div>
           </div>

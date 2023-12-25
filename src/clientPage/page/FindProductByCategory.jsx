@@ -91,9 +91,13 @@ export default function FindProductByCategory() {
 									{/* <p class="absolute rounded-full top-2 left-2 bg-gray-900 opacity-50 px-2 ml-auto text-base font-medium text-green-500">20% off</p> */}
 								</div>
 								<div class="p-2">
-									<div className="text-left">
-										<h2 class="mb-2 text-lg font-medium overflow-hidden text-gray-900">{product?.productName + " " + product?.color}</h2>
-									</div>
+								<div className="text-left">
+						<h2 className="mb-2 text-lg font-medium text-gray-900">
+							<span className="block overflow-hidden whitespace-nowrap overflow-ellipsis">
+								{product.productName + " " + product.color}
+							</span>
+						</h2>
+					</div>
 									<div className="text-left">
 										{Array(5)
 											.fill(0)

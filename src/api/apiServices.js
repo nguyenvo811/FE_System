@@ -24,6 +24,10 @@ const createUser = async (data) => {
   return await axios.post("http://localhost:8081/register", data, config)
 }
 
+const userSignUp = async (data) => {
+	return await axios.post("http://localhost:8081/user-register", data, config)
+  }
+
 const updateUser = async (id, data) => {
   return await axios.patch(`http://localhost:8081/user-list/${id}`, data, config)
 }
@@ -203,6 +207,13 @@ const addToWishLish = async (data) => {
 	  Authorization: `Bearer ${JSON.parse(localStorage.getItem("Authentication"))}`
 	}})
   }
+
+  const viewOrderDetail = async (id) => {
+	return await axios.get(`http://localhost:8081/view-order-detail/${id}`, {headers: {
+	  "Content-Type": "application/json",
+	  Authorization: `Bearer ${JSON.parse(localStorage.getItem("Authentication"))}`
+	}})
+  }
   
   const getOrders = async () => {
 	return await axios.get("http://localhost:8081/view-orders", config)
@@ -220,6 +231,7 @@ const addToWishLish = async (data) => {
 export {
 	signIn,
 	createUser,
+	userSignUp,
 	getUsers,
 	updateUser,
 	changePass,
@@ -260,6 +272,7 @@ export {
 	deleteProductFromCart,
 	deleteCart,
 	viewOrders,
+	viewOrderDetail,
 	createOrder,
 	deleteOrder,
 	updateOrder,

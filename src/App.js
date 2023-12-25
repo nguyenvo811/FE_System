@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LayoutAdmin from './adminPage/layout/LayoutAdmin';
 import ProductTable from './adminPage/page/product/ProductTable';
 import Authentication from './adminPage/page/Authentication';
+import SignUp from './adminPage/page/SignUp';
 import CategoryTable from './adminPage/page/category/CategoryTable';
 import UserTable from './adminPage/page/user/UserTable';
 import Home from './clientPage/page/Home';
@@ -34,6 +35,7 @@ function App() {
             <Route path={slug.SEARCH} element={<SearchResult />} />
           </Route>
           <Route index path='/sign-in' element={<Authentication />} />
+          <Route index path='/sign-up' element={<SignUp />} />
           <Route element={<LayoutAdmin />}>
             <Route index path='/managements/products' element={<ProductTable />} />
             <Route path='/managements/categories' element={<CategoryTable />} />

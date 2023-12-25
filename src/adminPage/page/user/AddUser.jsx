@@ -52,7 +52,7 @@ export default function AddUser(props) {
 
 	const renderRole = [
     {id: "admin", value: "Admin"},
-    {id: "staff", value: "Staff"},
+    {id: "customer", value: "Customer"},
   ]
 
 	const renderGender = [
@@ -326,7 +326,6 @@ export default function AddUser(props) {
 									</p>
 								</div>
               </div>
-
             </Box>
           </DialogContent>
           <DialogActions>

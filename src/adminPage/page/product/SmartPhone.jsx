@@ -12,7 +12,10 @@ export default function SmartPhone(props) {
 
 	const handleChangeInput = (e) => {
 		const { name, value } = e.target;
-		setData((prevData) => ({ ...prevData, [name]: value }));
+		setData((prevData) => ({
+			...prevData,
+			[name]: value,
+		}));
 	};
 
 	return (

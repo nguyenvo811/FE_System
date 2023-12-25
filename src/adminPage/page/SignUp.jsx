@@ -8,7 +8,6 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -17,16 +16,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Label, TextInput, Select, Textarea } from 'flowbite-react';
-import { signIn } from '../../api/apiServices';
+import { signIn, userSignUp } from '../../api/apiServices';
 import { useNavigate } from 'react-router-dom';
 import isEmail from 'validator/lib/isEmail';
 
 function Copyright(props) {
 	return (
 		<Typography variant="body2" color="text.secondary" align="center" {...props}>
-			Don't have an account? {" "}
-			<Link color="inherit" href="/sign-up">
-				Sign up.
+			Do you already have an account? {" "}
+			<Link color="inherit" href="/sign-in">
+				Sign in.
 			</Link>
 		</Typography>
 	);
@@ -63,7 +62,7 @@ function AlertModal(props) {
 
 const defaultTheme = createTheme();
 
-export default function Authentication() {
+export default function SignUp() {
 	// Use navigate when user sign in successfully
 	const navigate = useNavigate();
 
@@ -71,91 +70,114 @@ export default function Authentication() {
 	const [open, setOpen] = React.useState(false);
 	const [alertError, setAlertError] = React.useState("");
 
-	const handleOpen = (val) => {
-		setOpen(true)
-		setAlertError(val)
-	}
-
-	const handleClose = () => {
-		setOpen(false)
-		setAlertError("")
-	}
-
-	const [account, setAccount] = React.useState({
-		email: "",
-		password: ""
-	})
+	const [newUser, setNewUser] = React.useState({
+    email: "",
+    password: "",
+		fullName: "",
+		phoneNumber: "",
+		gender: "",
+		role: ""
+  });
 
 	const [error, setError] = React.useState({
-		email: "",
-		password: ""
-	});
+    email: "",
+    password: "",
+		fullName: "",
+		phoneNumber: "",
+		gender: "",
+		role: ""
+  });
 
-	// Get value
+	const renderRole = [
+    {id: "admin", value: "Admin"},
+    {id: "customer", value: "Customer"},
+  ]
+
+	const renderGender = [
+    {id: "male", value: "Male"},
+    {id: "female", value: "Female"},
+  ]
+
+  const validation = () => {
+    let msg = {}
+    if (newUser.email === "") {
+      msg.email = "Do not empty the field!"
+    } else if (!isEmail(newUser.email)) {
+      msg.email = "Incorrect email form!"
+		} if (newUser.password === "") {
+      msg.password = "Do not empty the field!"
+    } else if (newUser.password.length < 6) {
+      msg.password = "Password must be greater than 6!"
+    } if (newUser.fullName === "") {
+      msg.fullName = "Do not empty the field!"
+    } if (newUser.phoneNumber === "") {
+      msg.phoneNumber = "Do not empty the field!"
+    } else if (newUser.phoneNumber.length < 10 || newUser.phoneNumber.length > 10) {
+      msg.phoneNumber = "Incorrect phone number form!"
+    } if (newUser.gender === "") {
+      msg.gender = "Do not empty the field!"
+    } 
+    
+    setError(msg)
+    if (Object.keys(msg).length > 0) {
+      return false
+    } else {
+      return true
+    }
+  };
+
 	const handleChangeInput = (e) => {
-		let { name, value } = e.target;
-		setAccount({ ...account, [name]: value })
-		setError({...error, [name]: ""})
-	}
+    let {name, value} = e.target;
+    setNewUser({...newUser, [name]: value})
+    setError({...error, [name]: ""})
+  }
 
-	// Validation
-	const validate = () => {
-		let msg = {}
-		if (account.email === "") {
-			msg.email = "Vui lòng nhập email!"
-		} else if (!isEmail(account.email)) {
-			msg.email = "Email không đúng định dạng!"
-		} if (account.password === "") {
-			msg.password = "Vui lòng nhập mật khẩu!"
-		}
-
-		setError(msg)
-		console.log("validating")
-		if (Object.keys(msg).length > 0) {
-			return false
-		} else {
-			return true
-		}
-	};
-
-	// Set state to null
-	const clearState = () => {
-    setError({
+  const clearState = () => {
+		setError({
       email: "",
-      password: "",
+			password: "",
+			fullName: "",
+			phoneNumber: "",
+			gender: ""
     })
-    setAccount({
+    setNewUser({
       email: "",
-      password: "", 
+			password: "",
+			fullName: "",
+			phoneNumber: "",
+			gender: ""
     })
   }
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
+	const handleClose = () => {
+    clearState()
+  }
 
-		const data = {
-			email: account.email,
-			password: account.password
-		}
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-		const isValid = validate()
-		if (isValid) {
-			return await signIn(data)
-			.then(res => {
-				if (res.status === 200) {
-					clearState()
-					navigate("/")
-					window.location.reload()
-				}
-			})
-			.catch((err) => {
-				if (err.response.status === 500) {
-					console.log(err.response.data.result);
-					handleOpen(err.response.data.message);
-				}
-			})
+    const data = {
+      email: newUser.email,
+			password: newUser.password,
+			fullName: newUser.fullName,
+			phoneNumber: newUser.phoneNumber,
+			gender: newUser.gender
+    }
+
+		const isValid = validation()
+    if (isValid){
+
+    // Create the user
+    await userSignUp(data)
+      .then((response) => {
+        clearState()
+				navigate("/sign-in")
+      })
+      .catch((error) => {
+        console.log(error)
+      })
 		}
-	};
+  }
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
@@ -192,7 +214,7 @@ export default function Authentication() {
               
             </div>
 						<Typography component="h1" variant="h5">
-							Sign in
+							Sign up
 						</Typography>
 						<Box component="form" margin="normal" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
 							<div className='w-full grid gap-4'>
@@ -209,7 +231,7 @@ export default function Authentication() {
 										placeholder="email@gmail.com"
 										required
 										type="email"
-										value={account.email}
+										value={newUser.email}
 										onChange={handleChangeInput}
 									/>
 									<p class="flex mt-1 text-sm text-red-500"> 
@@ -229,14 +251,82 @@ export default function Authentication() {
 										placeholder="Password"
 										required
 										type="password"
-										value={account.password}
+										value={newUser.password}
 										onChange={handleChangeInput}
 									/>
 									<p class="flex mt-1 text-sm text-red-500"> 
 										{error.password}
 									</p>
 								</div>
+								<div>
+                  <div className="mb-2 flex">
+                    <Label
+                      htmlFor="fullName"
+                      value="Full name"
+                    />
+                  </div>
+                  <TextInput
+                    id="fullName"
+                    name="fullName"
+                    placeholder="Full name"
+                    required
+                    type="text"
+                    value={newUser.fullName}
+                    onChange={handleChangeInput}
+                  />
+									<p class="flex mt-1 text-sm text-red-500"> 
+										{error.fullName}
+									</p>
+                </div>
+								
+								<div>
+									<div className="mb-2 flex">
+										<Label
+											htmlFor="phoneNumber"
+											value="Phone number"
+										/>
+									</div>
+									<TextInput
+										id="phoneNumber"
+										name="phoneNumber"
+										placeholder="Phone number"
+										required
+										value={newUser.phoneNumber}
+										onChange={handleChangeInput}
+									/>
+									<p class="flex mt-1 text-sm text-red-500"> 
+										{error.phoneNumber}
+									</p>
+								</div>
+								<div>
+                  <div className="mb-2 flex">
+                    <Label
+                      htmlFor="gender"
+                      value="Gender"
+                    />
+                  </div>
+                  <Select
+                    id="gender"
+                    name="gender"
+                    required
+										defaultValue={"gender"}
+                    onChange={handleChangeInput}
+                  >
+										<option value={"gender"}>
+                      Choose gender
+                    </option>
+                    {renderGender?.map((option) => (
+                      <option key={option.id} value={option.value}>
+                        {option.value}
+                      </option>
+                    ))}
+									</Select>
+									<p class="flex mt-1 text-sm text-red-500"> 
+										{error.gender}
+									</p>
+                </div>
 							</div>
+							
 							{/* <FormControlLabel
 								control={<Checkbox value="remember" color="primary" />}
 								label="Remember me"
@@ -248,7 +338,7 @@ export default function Authentication() {
 								sx={{ mt: 3, mb: 2 }}
 								onChange={handleSubmit}
 							>
-								Sign in
+								Sign up
 							</Button>
 							<Copyright sx={{ mt: 5 }} />
 							<AlertModal open={open} close={handleClose} error={alertError} />

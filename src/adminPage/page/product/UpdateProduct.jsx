@@ -487,7 +487,6 @@ export default function UpdateProduct(props) {
           weight: watch.weight,
           batteryCapacity: watch.batteryCapacity,
         };
-
       case "Smart phone":
         return {
           screenTech: smartPhone.screenTech,
@@ -523,6 +522,7 @@ export default function UpdateProduct(props) {
         };
       default:
         setError({ category: "" });
+        return {};
     }
   };
 
@@ -536,9 +536,8 @@ export default function UpdateProduct(props) {
       brand: selectedBrandValue,
       productBrand: selectedProductBrandValue,
       variants: variants,
-      ...await choseValue(selectedValue)
+      ...(selectedValue ? await choseValue(selectedValue) : {})
     }
-    console.log(data.moreAttribute)
 
     const updatedVariants = [];
     for (let index = 0; index < tmpVariants.length; index++) {
@@ -572,17 +571,18 @@ export default function UpdateProduct(props) {
       const showValue = category.data.data;
       switch (showValue.categoryName) {
         case "Laptop":
-          return await updateLaptop(updatedData);
+          return await updateLaptop(data?._id, updatedData);
         case "Watch":
-          return await updateWatch(updatedData);
+          return await updateWatch(data?._id, updatedData);
         case "Smart phone":
           return await updateSmartPhone(data?._id, updatedData);
         case "Television":
-          return await updateTV(updatedData);
+          return await updateTV(data?._id, updatedData);
         case "Tablet":
-          return await updateTablet(updatedData);
+          return await updateTablet(data?._id, updatedData);
         default:
           setError({ category: "" });
+          return;
       }
     };
 

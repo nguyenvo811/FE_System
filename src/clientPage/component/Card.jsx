@@ -45,7 +45,7 @@ export default function Card() {
 		return (
 			<div
 				key={index}
-				class="m-auto sm:basis-[calc(100%/2-16px)] md:basis-[calc(100%/4-16px)] lg:basis-[calc(100%/5-16px)] mt-11 w-[230px] transform overflow-hidden rounded-xl shadow-md duration-300 hover:scale-105 hover:shadow-lg"
+				class="sm:basis-[calc(100%/2-16px)] md:basis-[calc(100%/4-16px)] lg:basis-[calc(100%/5-16px)] mt-11 w-[230px] transform overflow-hidden rounded-xl shadow-md duration-300 hover:scale-105 hover:shadow-lg"
 				onClick={() => handleClickDetail(val)}
 			>
 				<div className="relative">

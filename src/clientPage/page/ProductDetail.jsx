@@ -50,7 +50,7 @@ export default function ProductDetail() {
       .catch((err) => {
         console.log(err);
       });
-  }, [productID._id]);
+  }, [productID?._id]);
 
   useEffect(() => {
     // Fetch the wishlist data only if the user is signed in
@@ -76,7 +76,7 @@ export default function ProductDetail() {
     }
   }, [isSignIn, productID, color, version]);
 
-  const selectValue = product?.variants?.find(val => val._id === location.state)
+  const selectValue = product?.variants?.find(val => val?._id === location?.state)
 
   const handleSelectColor = (event) => {
     // Get the selected color value
@@ -102,7 +102,7 @@ export default function ProductDetail() {
   const getComment = userComment?.map(val => val)
   const findComment = getComment?.find(val => val.color === color)
 
-  const listProductDetail = product?.variants?.map(val => { return val._id });
+  const listProductDetail = product?.variants?.map(val => { return val?._id });
   const defaultColor = listProductDetail?.find((id) => { return id === selectValue?._id });
 
   useEffect(() => {

@@ -203,7 +203,7 @@ export default function Header(props) {
 										<input 
 											type="search" 
 											class="block w-full pl-10 rounded-md border border-[#DDE2E4] px-3 py-2 text-sm text-gray-800" 
-											placeholder="Tên sản phẩm..." 
+											placeholder="Product name..." 
 											value={wordEntered}
             					onChange={handleFilter}
 											required/>
@@ -211,7 +211,7 @@ export default function Header(props) {
 											type="submit" 
 											class="text-white absolute top-0 right-0 bottom-0 bg-green-400 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-transparent font-medium rounded-md text-xs sm:text-sm px-2 sm:px-4 sm:py-2"
 											onClick={(e) => search(wordEntered, e)}
-										>Tìm kiếm</button>
+										>Search</button>
 									</div>
 								</form>
 								<div className={`relative flex border-t-none z-10 bg-gray-50 justify-center ${showSearch? "" : "hidden"}`} onMouseLeave={() => { return setShowSearch(false) }}> 

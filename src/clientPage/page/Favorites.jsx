@@ -141,6 +141,9 @@ export default function Favorites() {
                 <h2 class="text-2xl font-medium text-gray-800">Your Favorites</h2>
                 <span class="block w-10 h-1 bg-green-400 rounded"></span>
                   {productsCart}
+                  { products?.wishListItem?.length === 0 && <div class="grid justify-center items-center">
+                    <span class="title-font font-bold text-2xl text-gray-300">Empty list</span>
+                  </div>}
               </div>
             </div>
           </div>
